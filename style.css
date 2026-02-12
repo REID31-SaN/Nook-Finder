@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ---------- HEADER ---------- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #FFF3DB;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+nav {
+    display: flex;
+    gap: 1rem;
+}
+
+nav button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #d35b16;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+nav button:hover {
+    background-color: #9e4511;
+    color: #fff;
+}
+
+/* ---------- MAIN ---------- */
+main {
+    padding: 2rem;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+p {
+    color: #666;
+}
+
+/* ---------- TOP 3 SECTION ---------- */
+.top-three {
+    margin-top: 60px;
+    padding: 60px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 70vh;
+    width: 100%;
+    background: #fff;
+}
+
+.top-text {
+    width: 30%;
+    padding-right: 20px;
+}
+
+.top-text h2 {
+    font-size: 42px;
+    margin-bottom: 15px;
+    color: #222;
+    line-height: 1.2;
+}
+
+.top-text p {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.top-images {
+    width: 65%;
+    display: flex;
+    gap: 25px;
+}
+
+/* ---------- PLACE CARDS  ---------- */
+.place-card {
+    position: relative;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.place-card:hover {
+    transform: translateY(-5px);
+}
+
+.place-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.place-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+    color: white;
+    text-align: center;
+    border-radius: 0 0 10px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- DISCOVER SECTION ---------- */
+.discover {
+    margin-top: 80px;
+    padding: 30px 80px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.discover-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.discover-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
