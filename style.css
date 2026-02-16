@@ -31,7 +31,7 @@ nav {
     text-decoration: none;
     color: #333;
     font-size: 1rem;
-    font-weight: 700;          /* thicker font */
+    font-weight: 700;           
     transition: transform 0.2s ease;
 }
 
@@ -42,14 +42,14 @@ nav {
 /* Login Button */
 .login-circle {
     background-color: #6D3E1C   ; 
-    color: white;              
-    padding: 0.5rem 1rem;      
+    color: white;               
+    padding: 0.5rem 1rem;       
     border-radius: 4px;       
-    font-weight: 700;          
+    font-weight: 700;           
 }
 
 
-/* ---------- MOBILE VERSION ---------- */
+/* ---------- MOBILE VERSION (ORIGINAL HEADER FIXES) ---------- */
 @media (max-width: 768px) {
 
     header {
@@ -59,7 +59,7 @@ nav {
     }
 
     .logo {
-        margin-bottom: 1rem; /* space between logo and buttons */
+        margin-bottom: 1rem; 
     }
 
     nav {
@@ -81,27 +81,7 @@ nav {
     }
 
     .nav-link:hover {
-        transform: scale(1.1);
-    }
-
-    /* ---------- FOOTER PART ---------- */
-
-    .footer-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 20px;
-    }
-
-    .footer-nav {
-        align-items: center;
-    }
-
-    .footer-bottom {
-        margin-top: 40px;
-        font-size: 0.85rem;
-        opacity: 0.8;
-        text-align: center;
+        transform: scale(1.1);    
     }
 }
 
@@ -210,6 +190,71 @@ p {
     gap: 25px;
 }
 
+
+/* =======================================================
+   --- NEW RESPONSIVE ADDITIONS FOR ALL DEVICES ---
+   (Handles Tablets, Laptops, and Phones for the body)
+   ======================================================= */
+
+/* 1. TABLET/SMALL LAPTOP VIEW (Max Width 1024px) */
+@media (max-width: 1024px) {
+    .top-three {
+        padding: 40px;      
+        flex-direction: column; 
+        text-align: center;
+    }
+
+    .top-text {
+        width: 100%;
+        margin-bottom: 30px;
+        padding-right: 0;
+    }
+
+    .top-images {
+        width: 100%;
+    }
+
+    .discover {
+        padding: 30px 40px;
+    }
+
+    .discover-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 2. MOBILE PHONE VIEW (Max Width 768px) */
+@media (max-width: 768px) {
+    /* --- Fix Top 3 Section --- */
+    .top-three {
+        margin-top: 20px;
+        padding: 20px;      
+        height: auto;
+    }
+    
+    .top-images {
+        flex-direction: column; 
+        gap: 15px;
+    }
+    
+    .place-card img {
+        height: 200px; 
+    }
+
+    .discover {
+        margin-top: 40px;
+        padding: 20px;
+    }
+
+    .discover-title {
+        font-size: 28px;
+    }
+
+    .discover-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ---------- FOOTER ---------- */
 
 footer {
@@ -255,3 +300,24 @@ footer {
     font-size: 0.85rem;
     opacity: 0.8;
 }
+
+    /* ---------- FOOTER PART ---------- */
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-nav {
+        align-items: center;
+    }
+
+    .footer-bottom {
+        margin-top: 40px;
+        font-size: 0.85rem;
+        opacity: 0.8;
+        text-align: center;
+    }
+
