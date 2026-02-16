@@ -27,6 +27,6 @@
 </header>
 
 <main>
-    <h1>Test</h1>
-    <p>Find quiet spaces around HAU.</p>
+    <h1>find a spot</h1>
+    <p>find your focus.</p>
 </main>
