@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nook Finder</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -10,15 +11,19 @@
 
 <header>
     <div class="logo">
-        Nook Finder
+        <a href="index.php">
+            <img src="images/NookFindr Logo.png" alt="Nook Finder Logo">
+        </a>
     </div>
 
     <nav>
-        <button>Home</button>
-        <button>Discover</button>
-        <button>Map</button>
-        <button>Login</button>
+        <a href="discover.php" class="nav-link">Discover</a>
+        <a href="map.php" class="nav-link">Find A Spot</a>
+        <a href="about.php" class="nav-link">About</a>
+        <a href="login.php" class="nav-link login-circle">Login</a>
     </nav>
+
+
 </header>
 
 <main>
