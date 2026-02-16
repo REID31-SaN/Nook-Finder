@@ -41,7 +41,7 @@ nav {
 
 /* Login Button */
 .login-circle {
-    background-color: #d35b16; 
+    background-color: #6D3E1C   ; 
     color: white;              
     padding: 0.5rem 1rem;      
     border-radius: 4px;       
@@ -70,7 +70,7 @@ nav {
     }
 
     .nav-link {
-        background-color: #d35b16; 
+        background-color: #6D3E1C; 
         color: white;
         padding: 0.3rem 0.6rem;   
         border-radius: 4px;
