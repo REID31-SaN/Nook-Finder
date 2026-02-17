@@ -1,5 +1,16 @@
 <?php include 'header.php'; ?>
 
+<!-- =login func====================================== -->
+<?php
+if (isset($_GET['login']) && $_GET['login'] == 'success') {
+    echo '<p style="color: green;">Login successful! Welcome back.</p>';
+}
+if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
+    echo '<p style="color: blue;">You have been logged out.</p>';
+}
+?>
+<!-- =========================================== -->
+
 <!-- TOP 3 SECTION -->
 <section class="top-three">
     <div class="top-text">
