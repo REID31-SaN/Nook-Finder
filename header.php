@@ -25,24 +25,11 @@ session_start();
         <a href="map.php" class="nav-link">Find A Spot</a>
         <a href="about.php" class="nav-link">About</a>
 
-        <!-- Welcome Message draft=================================== -->
         <?php if (isset($_SESSION['user_id'])): ?>
-
-            <!-- Show username and logout when logged in -->
             <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</span>
             <a href="logout.php" class="nav-link">Logout</a>
         <?php else: ?>
-
-            <!-- Show login link when not logged in -->
             <a href="login.php" class="nav-link login-circle">Login</a>
         <?php endif; ?>
-        <!-- ============================================ -->
-         
     </nav>
-
 </header>
-
-<main>
-    <h1>Find a spot</h1>
-    <p>Find your focus.</p>
-</main>
