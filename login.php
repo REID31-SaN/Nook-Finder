@@ -8,7 +8,7 @@
         <?php
         // Login Failed Error Message
         if (isset($_GET['error']) && $_GET['error'] == 'invalid') {
-            echo '<p class="error-msg">Invalid email or password. Please try again.</p>';
+            echo '<p class="error-msg">Invalid username or password. Please try again.</p>';
         }
 
         // Optional: show success message if redirected from logout or signup
@@ -22,8 +22,8 @@
             <div class="form-group">
                 <input 
                     type="text" 
-                    name="email" 
-                    placeholder="Email" 
+                    name="username" 
+                    placeholder="username" 
                     required
                 >
             </div>
