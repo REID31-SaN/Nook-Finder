@@ -23,7 +23,7 @@
                 <input 
                     type="text" 
                     name="username" 
-                    placeholder="username" 
+                    placeholder="Username" 
                     required
                 >
             </div>
@@ -58,3 +58,4 @@
 <script>
     document.body.classList.add('login-mode');
 </script>
+
