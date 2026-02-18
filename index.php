@@ -41,23 +41,24 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
 <section class="discover">
     <h2 class="discover-title">Discover</h2>
     <div class="discover-cards">
-        <div class="place-card">
+        <a href="cafe_window.php?cafe=Co.Create&img=images/Cocreate.png" class="place-card">
             <img src="images/CoCreate.PNG" alt="Co.Create">
             <div class="place-name">Co.Create</div>
-        </div>
-        <div class="place-card">
+        </a>
+        <a href="cafe_window.php?cafe=Cush Lounge&img=images/cush.jpg" class="place-card">
             <img src="images/Cush.jpg" alt="Cush Lounge">
             <div class="place-name">Cush Lounge</div>
-        </div>
-        <div class="place-card">
+        </a>
+        <a href="cafe_window.php?cafe=Vessel Coworking Space&img=images/vessel.jpg" class="place-card">
             <img src="images/Vessel.jpg" alt="Vessel Coworking space">
             <div class="place-name">Vessel Coworking space</div>
-        </div>
-        <div class="place-card">
+        </a>
+        <a href="cafe_window.php?cafe=Kuwento Cafe&img=images/kwento.jpg" class="place-card">
             <img src="images/kwento.jpg" alt="Kuwento Cafe">
             <div class="place-name">Kuwento Cafe</div>
-        </div>
+        </a>
     </div>
 </section>
 
 <?php include 'footer.php'; ?>
+
