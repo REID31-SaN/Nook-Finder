@@ -321,3 +321,82 @@ footer {
         text-align: center;
     }
 
+/* ---------- LOGIN PAGE ---------- */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+main {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login container (card) */
+.login-container {
+    width: 400px;               
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+/* Form layout */
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;                 
+    padding: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Input focus effect */
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    outline: none;
+    border-color: #6D3E1C;
+    box-shadow: 0 0 6px rgba(109, 62, 28, 0.3);
+}
+
+/* Login button */
+.login-btn {
+    width: 100%;                
+    background-color: #6D3E1C;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: #9e4511;
+}
+
+
+.error-msg {
+    color: red;
+    text-align: center;
+    margin-bottom: 1rem;
+}
