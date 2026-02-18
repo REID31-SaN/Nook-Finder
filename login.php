@@ -11,7 +11,7 @@
             echo '<p class="error-msg">Invalid username or password. Please try again.</p>';
         }
 
-        // Optional: show success message if redirected from logout or signup
+        // Success message if redirected from logout or signup
         if (isset($_GET['message']) && $_GET['message'] == 'registered') {
             echo '<p class="success-msg">Registration successful! Please log in.</p>';
         }
@@ -57,4 +57,5 @@
 
 <script>
     document.body.classList.add('login-mode');
+
 </script>
