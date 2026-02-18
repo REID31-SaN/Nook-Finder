@@ -1,22 +1,56 @@
 <?php include 'header.php'; ?>
 
-<h2>Login</h2>
+<main>
+    <div class="login-container">
 
-<?php
-// Show error message if login failed
-if (isset($_GET['error']) && $_GET['error'] == 'invalid') {
-    echo '<p style="color: red;">Invalid email or password. Please try again.</p>';
-}
-?>
+        <h2>Login</h2>
 
-<form method="post" action="authenticate.php">
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" required><br><br>
+        <?php
+        // Login Failed Error Message
+        if (isset($_GET['error']) && $_GET['error'] == 'invalid') {
+            echo '<p class="error-msg">Invalid email or password. Please try again.</p>';
+        }
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
+        // Optional: show success message if redirected from logout or signup
+        if (isset($_GET['message']) && $_GET['message'] == 'registered') {
+            echo '<p class="success-msg">Registration successful! Please log in.</p>';
+        }
+        ?>
 
-    <input type="submit" value="Login">
-</form>
+        <form method="post" action="authenticate.php">
+
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    name="email" 
+                    placeholder="Email" 
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <input 
+                    type="password" 
+                    name="password" 
+                    placeholder="Password" 
+                    required
+                >
+            </div>
+
+            <input 
+                type="submit" 
+                value="Login" 
+                class="login-btn"
+            >
+
+            <p class="signup-text">
+                Don't have an account yet? 
+                <a href="index.php">Sign Up</a>
+            </p>
+
+        </form>
+
+    </div>
+</main>
 
 <?php include 'footer.php'; ?>
