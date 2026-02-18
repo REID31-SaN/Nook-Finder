@@ -41,7 +41,7 @@ nav {
 
 /* Login Button */
 .login-circle {
-    background-color: #6D3E1C   ; 
+    background-color: #6D3E1C; 
     color: white;               
     padding: 0.5rem 1rem;       
     border-radius: 4px;       
@@ -190,73 +190,7 @@ p {
     gap: 25px;
 }
 
-
-/* =======================================================
-   --- NEW RESPONSIVE ADDITIONS FOR ALL DEVICES ---
-   (Handles Tablets, Laptops, and Phones for the body)
-   ======================================================= */
-
-/* 1. TABLET/SMALL LAPTOP VIEW (Max Width 1024px) */
-@media (max-width: 1024px) {
-    .top-three {
-        padding: 40px;      
-        flex-direction: column; 
-        text-align: center;
-    }
-
-    .top-text {
-        width: 100%;
-        margin-bottom: 30px;
-        padding-right: 0;
-    }
-
-    .top-images {
-        width: 100%;
-    }
-
-    .discover {
-        padding: 30px 40px;
-    }
-
-    .discover-cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* 2. MOBILE PHONE VIEW (Max Width 768px) */
-@media (max-width: 768px) {
-    /* --- Fix Top 3 Section --- */
-    .top-three {
-        margin-top: 20px;
-        padding: 20px;      
-        height: auto;
-    }
-    
-    .top-images {
-        flex-direction: column; 
-        gap: 15px;
-    }
-    
-    .place-card img {
-        height: 200px; 
-    }
-
-    .discover {
-        margin-top: 40px;
-        padding: 20px;
-    }
-
-    .discover-title {
-        font-size: 28px;
-    }
-
-    .discover-cards {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* ---------- FOOTER ---------- */
-
+/* ---------- FOOTER (Desktop Default) ---------- */
 footer {
     background-color: #6D3E1C;
     color: #FFF3DB;
@@ -264,6 +198,7 @@ footer {
     margin-top: 80px;
 }
 
+/* Desktop: Spread out (Space Between) */
 .footer-container {
     display: flex;
     justify-content: space-between;
@@ -301,42 +236,36 @@ footer {
     opacity: 0.8;
 }
 
-    /* ---------- FOOTER PART ---------- */
+/* =======================================================
+   LOGIN PAGE STYLES (SCOPED)
+   ======================================================= */
+/* These styles are scoped to the .login-mode class 
+   so they don't break the scrolling on other pages.
+*/
 
-    .footer-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 20px;
-    }
-
-    .footer-nav {
-        align-items: center;
-    }
-
-    .footer-bottom {
-        margin-top: 40px;
-        font-size: 0.85rem;
-        opacity: 0.8;
-        text-align: center;
-    }
-
-/* ---------- LOGIN PAGE ---------- */
-
-body {
+body.login-mode {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    overflow: hidden; /* Prevents Scrolling */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-main {
-    min-height: 80vh;
+body.login-mode main {
+    flex: 1; /* Centers content vertically */
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    padding: 0;
 }
 
-/* Login container (card) */
+body.login-mode footer {
+    margin-top: 0; /* Ensures footer fits at bottom without scroll */
+}
+
 .login-container {
     width: 400px;               
     padding: 2.5rem;
@@ -345,19 +274,16 @@ main {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-
 .login-container h2 {
     text-align: center;
     margin-bottom: 1.8rem;
 }
 
-/* Form layout */
 .login-container form {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
-
 
 .login-container input[type="text"],
 .login-container input[type="password"] {
@@ -369,7 +295,6 @@ main {
     box-sizing: border-box;
 }
 
-/* Input focus effect */
 .login-container input[type="text"]:focus,
 .login-container input[type="password"]:focus {
     outline: none;
@@ -377,7 +302,6 @@ main {
     box-shadow: 0 0 6px rgba(109, 62, 28, 0.3);
 }
 
-/* Login button */
 .login-btn {
     width: 100%;                
     background-color: #6D3E1C;
@@ -394,9 +318,118 @@ main {
     background-color: #9e4511;
 }
 
-
 .error-msg {
     color: red;
     text-align: center;
     margin-bottom: 1rem;
+}
+
+/* =======================================================
+   RESPONSIVE MEDIA QUERIES
+   ======================================================= */
+
+/* 1. TABLET/SMALL LAPTOP VIEW (Max Width 1024px) */
+@media (max-width: 1024px) {
+    .top-three {
+        padding: 40px;      
+        flex-direction: column; 
+        text-align: center;
+    }
+
+    .top-text {
+        width: 100%;
+        margin-bottom: 30px;
+        padding-right: 0;
+    }
+
+    .top-images {
+        width: 100%;
+    }
+
+    .discover {
+        padding: 30px 40px;
+    }
+
+    .discover-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* FOOTER FIX FOR TABLET/MOBILE: Center everything */
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-nav {
+        align-items: center;
+    }
+
+    .footer-bottom {
+        text-align: center;
+    }
+}
+
+/* 2. MOBILE PHONE VIEW (Max Width 768px) */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo {
+        margin-bottom: 1rem; 
+    }
+
+    nav {
+        flex-direction: row;       
+        justify-content: center;    
+        gap: 0.5rem;               
+        flex-wrap: wrap;          
+    }
+
+    .nav-link {
+        background-color: #6D3E1C; 
+        color: white;
+        padding: 0.3rem 0.6rem;   
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.9rem;       
+        text-align: center;
+        transition: transform 0.2s ease;
+    }
+
+    .nav-link:hover {
+        transform: scale(1.1);    
+    }
+
+    .top-three {
+        margin-top: 20px;
+        padding: 20px;      
+        height: auto;
+    }
+    
+    .top-images {
+        flex-direction: column; 
+        gap: 15px;
+    }
+    
+    .place-card img {
+        height: 200px; 
+    }
+
+    .discover {
+        margin-top: 40px;
+        padding: 20px;
+    }
+
+    .discover-title {
+        font-size: 28px;
+    }
+
+    .discover-cards {
+        grid-template-columns: 1fr;
+    }
 }
