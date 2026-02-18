@@ -58,4 +58,3 @@
 <script>
     document.body.classList.add('login-mode');
 </script>
-

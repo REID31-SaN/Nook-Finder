@@ -54,8 +54,6 @@
 </main>
 
 <?php include 'footer.php'; ?>
-
 <script>
     document.body.classList.add('login-mode');
 </script>
-

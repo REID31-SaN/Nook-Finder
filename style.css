@@ -85,25 +85,34 @@ nav {
     }
 }
 
+/* HERO MAIN*/
 
-/* ---------- MAIN ---------- */
-main {
-    padding: 2rem;
+.hero {
+    background-image: url('images/heroIMG.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    position: relative;
+    color: white;
 }
 
-/* --- TEXT STYLES (MOVABLE) --- */
-h1 {
-    margin-bottom: 0.2rem; 
-    color: #333;
+.hero h1, .hero p {
     position: relative;
-    top: 100px; 
+    z-index: 2;
 }
 
-p {
-    color: #666;
-    position: relative;
-    top: 100px; 
+/* Dark Overlay*/
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
 }
 
 /* ---------- TOP 3 SECTION ---------- */
@@ -142,7 +151,7 @@ p {
     gap: 25px;
 }
 
-/* ---------- PLACE CARDS  ---------- */
+/* ---------- PLACE CARDS ---------- */
 .place-card {
     position: relative;
     width: 100%;
@@ -233,11 +242,6 @@ footer {
     height: 45px;
     width: auto;
     display: block;
-    
-    /* --- FOOTER LOGO MOVABLE --- */
-    position: relative;
-    top: 5px;   /* Change to move Up (-) or Down (+) */
-    left: 0px;  /* Change to move Left (-) or Right (+) */
 }
 
 .footer-bottom {
@@ -249,16 +253,16 @@ footer {
 /* =======================================================
    LOGIN PAGE STYLES (SCOPED)
    ======================================================= */
+/* These styles are scoped to the .login-mode class 
+   so they don't break the scrolling on other pages.
+*/
 
 body.login-mode {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    
-    /* Allow scrolling if content is too tall */
-    overflow-y: auto; 
-    
-    min-height: 100vh;
+    overflow: hidden; /* Prevents Scrolling */
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -269,25 +273,19 @@ body.login-mode main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 20px; /* Add some padding so it doesn't touch edges on scroll */
+    padding: 0;
 }
 
 body.login-mode footer {
-    margin-top: 0; 
+    margin-top: 0; /* Ensures footer fits at bottom without scroll */
 }
 
-/* --- Responsive Login Container --- */
 .login-container {
-    width: 90%; 
-    max-width: 400px;
-    
+    width: 400px;               
     padding: 2.5rem;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    
-    /* Ensure it doesn't get cut off on very short screens */
-    margin: 20px 0; 
 }
 
 .login-container h2 {
@@ -532,4 +530,96 @@ body.login-mode footer {
         flex-direction: column;
         gap: 15px;               
     }
+}
+
+.about-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 20px;
+    padding-top: 40px; 
+}
+
+.about-header {
+    text-align: center; 
+    margin-bottom: 40px;
+}
+
+.about-header h1 {
+    position: static; 
+    margin-bottom: 5px;
+    font-size: 3rem;
+}
+
+.about-tagline {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #6D3E1C;
+}
+
+.about-box {
+    background-color: #6D3E1C; 
+    color: #FFF3DB;            
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.about-box h2 {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 28px;
+    color: #FFF3DB; 
+    border-bottom: 2px solid rgba(255, 243, 219, 0.3); 
+    padding-bottom: 10px;
+}
+
+.about-box p {
+    margin-bottom: 20px;
+    line-height: 1.7;
+    color: #f0e6d2; 
+    font-size: 1.05rem;
+    text-align: justify;
+    position: static; 
+}
+
+.about-list {
+    list-style-type: disc;
+    padding-left: 40px;
+    margin-bottom: 10px;
+    color: #f0e6d2;
+}
+
+.about-list li {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.about-list strong {
+    color: #FFF3DB; 
+}
+
+@media (max-width: 1024px) {
+    .about-wrapper {
+        padding: 20px;
+    }
+    
+    .about-box {
+        padding: 25px; 
+    }
+
+    .about-box p {
+        text-align: left; 
+    }
+}
+.error-msg {
+    color: red;
+    text-align: center;
+    margin: 10px 0 20px 0;
+}
+
+.success-msg {
+    color: green;
+    text-align: center;
+    margin: 10px 0 20px 0;
 }

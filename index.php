@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 
-<main>
+<main class="hero">
     <h1>Find a spot</h1>
     <p>Find your focus.</p>
 </main>
@@ -61,5 +61,4 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
 </section>
 
 <?php include 'footer.php'; ?>
-
 

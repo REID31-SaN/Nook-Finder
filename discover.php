@@ -8,17 +8,54 @@
     </div>
 
     <div class="discover-cards">
-        
+
+    <a href="cafe_window.php?cafe=Kuwento Cafe&img=images/kwento.jpg" class="place-card">
+        <div class="place-card">
+            <img src="images/CoCreate.PNG" alt="Co.Create">
+            <div class="place-name">
+                Co.Create
+                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
+                    <span style="font-size: 0.8rem;">📍 0.8 km away</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="cafe_window.php?cafe=Cush Lounge&img=images/cush.jpg" class="place-card">
+        <div class="place-card">
+            <img src="images/Cush.jpg" alt="Cush Lounge">
+            <div class="place-name">
+                Cush Lounge
+                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
+                    <span style="font-size: 0.8rem;">📍 1.0 km away</span>
+                </div>
+            </div>
+        </div>
+    </a>   
+
+    <a href="cafe_window.php?cafe=Vessel Coworking Space&img=images/vessel.jpg" class="place-card">
+        <div class="place-card">
+            <img src="images/Vessel.jpg" alt="Vessel Coworking">
+            <div class="place-name">
+                Vessel Coworking
+                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
+                    <span style="font-size: 0.8rem;">📍 1.6 km away</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="cafe_window.php?cafe=Co.Create&img=images/Cocreate.png" class="place-card">
         <div class="place-card">
             <img src="images/kwento.jpg" alt="Kuwento Cafe">
             <div class="place-name">
                 Kuwento Cafe
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Cozy & Quiet • Wifi Available <br>
                     <span style="font-size: 0.8rem;">📍 1.2 km away</span>
                 </div>
             </div>
         </div>
+    </a>
 
         <div class="place-card">
             <img src="images/OFTR.jpg" alt="oFTr">
@@ -35,8 +72,7 @@
             <img src="images/ACLib.jpg" alt="Angeles City Library">
             <div class="place-name">
                 Angeles City Library
-                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Public Study Space • Free Wifi <br>
+                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;"> 
                     <span style="font-size: 0.8rem;">📍 2.8 km away</span>
                 </div>
             </div>
@@ -47,51 +83,17 @@
             <div class="place-name">
                 BRÜDR
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Coffee & Chill • Wifi Available <br>
                     <span style="font-size: 0.8rem;">📍 1.5 km away</span>
                 </div>
             </div>
         </div>
 
-        <div class="place-card">
-            <img src="images/CoCreate.PNG" alt="Co.Create">
-            <div class="place-name">
-                Co.Create
-                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Coworking & Arts • Fast Wifi <br>
-                    <span style="font-size: 0.8rem;">📍 0.8 km away</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="place-card">
-            <img src="images/Cush.jpg" alt="Cush Lounge">
-            <div class="place-name">
-                Cush Lounge
-                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Study Nook • Quiet Zone <br>
-                    <span style="font-size: 0.8rem;">📍 1.0 km away</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="place-card">
-            <img src="images/Vessel.jpg" alt="Vessel Coworking">
-            <div class="place-name">
-                Vessel Coworking
-                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Professional Space • Fast Wifi <br>
-                    <span style="font-size: 0.8rem;">📍 1.6 km away</span>
-                </div>
-            </div>
-        </div>
 
         <div class="place-card">
             <img src="images/NookFindr Logo.png" style="object-fit: contain; padding: 20px; background: #f0f0f0;" alt="Cafe Dia">
             <div class="place-name">
                 Cafe Dia
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Garden Cafe • Relaxed Vibe <br>
                     <span style="font-size: 0.8rem;">📍 2.1 km away</span>
                 </div>
             </div>
@@ -104,7 +106,6 @@
             <div class="place-name">
                 New Spot Opening
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    Stay tuned for updates! <br>
                     <span style="font-size: 0.8rem;">📍 ??? km away</span>
                 </div>
             </div>
