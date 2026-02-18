@@ -43,9 +43,9 @@
                 class="login-btn"
             >
 
-            <p class="signup-text">
+            <p class="signup-text" style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
                 Don't have an account yet? 
-                <a href="index.php">Sign Up</a>
+                <a href="index.php" style="color: #6D3E1C; font-weight: bold; text-decoration: none;">Sign Up</a>
             </p>
 
         </form>
@@ -54,3 +54,7 @@
 </main>
 
 <?php include 'footer.php'; ?>
+
+<script>
+    document.body.classList.add('login-mode');
+</script>
