@@ -92,13 +92,18 @@ main {
     text-align: center;
 }
 
+/* --- TEXT STYLES (MOVABLE) --- */
 h1 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.2rem; 
     color: #333;
+    position: relative;
+    top: 100px; 
 }
 
 p {
     color: #666;
+    position: relative;
+    top: 100px; 
 }
 
 /* ---------- TOP 3 SECTION ---------- */
@@ -228,6 +233,11 @@ footer {
     height: 45px;
     width: auto;
     display: block;
+    
+    /* --- FOOTER LOGO MOVABLE --- */
+    position: relative;
+    top: 5px;   /* Change to move Up (-) or Down (+) */
+    left: 0px;  /* Change to move Left (-) or Right (+) */
 }
 
 .footer-bottom {
@@ -239,16 +249,16 @@ footer {
 /* =======================================================
    LOGIN PAGE STYLES (SCOPED)
    ======================================================= */
-/* These styles are scoped to the .login-mode class 
-   so they don't break the scrolling on other pages.
-*/
 
 body.login-mode {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    overflow: hidden; /* Prevents Scrolling */
-    height: 100vh;
+    
+    /* Allow scrolling if content is too tall */
+    overflow-y: auto; 
+    
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -259,19 +269,25 @@ body.login-mode main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 0;
+    padding: 20px; /* Add some padding so it doesn't touch edges on scroll */
 }
 
 body.login-mode footer {
-    margin-top: 0; /* Ensures footer fits at bottom without scroll */
+    margin-top: 0; 
 }
 
+/* --- Responsive Login Container --- */
 .login-container {
-    width: 400px;               
+    width: 90%; 
+    max-width: 400px;
+    
     padding: 2.5rem;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    
+    /* Ensure it doesn't get cut off on very short screens */
+    margin: 20px 0; 
 }
 
 .login-container h2 {
