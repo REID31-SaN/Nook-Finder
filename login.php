@@ -45,7 +45,7 @@
 
             <p class="signup-text" style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
                 Don't have an account yet? 
-                <a href="index.php" style="color: #6D3E1C; font-weight: bold; text-decoration: none;">Sign Up</a>
+                <a href="register.php" style="color: #6D3E1C; font-weight: bold; text-decoration: none;">Sign Up</a>
             </p>
 
         </form>
