@@ -1,5 +1,11 @@
 <?php include 'header.php'; ?>
 
+<main>
+    <h1>Find a spot</h1>
+    <p>Find your focus.</p>
+</main>
+
+
 <!-- =login func====================================== -->
 <?php
 if (isset($_GET['login']) && $_GET['login'] == 'success') {
@@ -11,7 +17,6 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
 ?>
 <!-- =========================================== -->
 
-<!-- TOP 3 SECTION -->
 <section class="top-three">
     <div class="top-text">
         <h2>Top 3 Places This Week</h2>
@@ -33,20 +38,19 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
     </div>
 </section>
 
-<!-- DISCOVER SECTION -->
 <section class="discover">
     <h2 class="discover-title">Discover</h2>
     <div class="discover-cards">
         <div class="place-card">
-            <img src="images/Cocreate.png" alt="Co.Create">
+            <img src="images/CoCreate.PNG" alt="Co.Create">
             <div class="place-name">Co.Create</div>
         </div>
         <div class="place-card">
-            <img src="images/cush.jpg" alt="Cush Lounge">
+            <img src="images/Cush.jpg" alt="Cush Lounge">
             <div class="place-name">Cush Lounge</div>
         </div>
         <div class="place-card">
-            <img src="images/vessel.jpg" alt="Vessel Coworking space">
+            <img src="images/Vessel.jpg" alt="Vessel Coworking space">
             <div class="place-name">Vessel Coworking space</div>
         </div>
         <div class="place-card">
