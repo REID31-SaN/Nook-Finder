@@ -15,7 +15,7 @@
             <div class="place-name">
                 Co.Create
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    <span style="font-size: 0.8rem;">📍 0.8 km away</span>
+                    <span style="font-size: 0.8rem;">📍 0.25 km away</span>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="place-name">
                 Cush Lounge
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    <span style="font-size: 0.8rem;">📍 1.0 km away</span>
+                    <span style="font-size: 0.8rem;">📍 1.4 km away</span>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="place-name">
                 Vessel Coworking
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    <span style="font-size: 0.8rem;">📍 1.6 km away</span>
+                    <span style="font-size: 0.8rem;">📍 0.55 km away</span>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
             <div class="place-name">
                 Kuwento Cafe
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    <span style="font-size: 0.8rem;">📍 1.2 km away</span>
+                    <span style="font-size: 0.8rem;">📍 1.3 km away</span>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
                 oFTr
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
                     Modern Focus Spot • Fast Wifi <br>
-                    <span style="font-size: 0.8rem;">📍 0.5 km away</span>
+                    <span style="font-size: 0.8rem;">📍 0.25 km away</span>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
             <div class="place-name">
                 Angeles City Library
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;"> 
-                    <span style="font-size: 0.8rem;">📍 2.8 km away</span>
+                    <span style="font-size: 0.8rem;">📍 0.75 km away</span>
                 </div>
             </div>
         </div>
@@ -83,18 +83,18 @@
             <div class="place-name">
                 BRÜDR
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    <span style="font-size: 0.8rem;">📍 1.5 km away</span>
+                    <span style="font-size: 0.8rem;">📍 0.5 km away</span>
                 </div>
             </div>
         </div>
 
-
+ 
         <div class="place-card">
-            <img src="images/NookFindr Logo.png" style="object-fit: contain; padding: 20px; background: #f0f0f0;" alt="Cafe Dia">
+            <img src="images/ARTE.jpg" alt="Artè Cafè">
             <div class="place-name">
-                Cafe Dia
+                Artè Cafè
                 <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    <span style="font-size: 0.8rem;">📍 2.1 km away</span>
+                    <span style="font-size: 0.8rem;">📍 1.0 km away</span>
                 </div>
             </div>
         </div>
