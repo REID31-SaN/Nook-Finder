@@ -1,6 +1,20 @@
 <?php include 'header.php'; ?>
 
 <main class="hero hero-map">
+    <div class="map-sidebar">
+        <h1 class="map-sidebar-text">ACTIONS</h1>
+
+        <input type="text" placeholder="Search" class="search-box">
+
+        <div class="sidebar-buttons">
+            <a class="sidebar-btn" href="map.php">PIN A PLACE</a>
+            <a class="sidebar-btn" href="map.php">APPLY FILTERS</a>
+            <a class="sidebar-btn" href="map.php">FAVOURITES</a>
+        </div>
+
+        <a class="sidebar-btn propose-location" href="map.php">PROPOSE<br>LOCATION</a>
+
+    </div>
 </main>
 
 <section class="discover" style="margin-top: 20px; padding-top: 20px; min-height: 80vh;">
@@ -50,3 +64,4 @@
 </section>
 
 <?php include 'footer.php'; ?>
+
