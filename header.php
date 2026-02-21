@@ -29,7 +29,8 @@ session_start();
             <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</span>
             <a href="logout.php" class="nav-link">Logout</a>
         <?php else: ?>
-            <a href="login.php" class="nav-link login-circle">Login</a>
+            <a href="login.php" class="nav-link login-circle">Login / Register</a>
         <?php endif; ?>
     </nav>
+
 </header>
