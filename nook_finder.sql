@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2026 at 01:09 PM
+-- Generation Time: Feb 21, 2026 at 01:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,18 +31,20 @@ CREATE TABLE `accounts` (
   `account_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Type` varchar(10) NOT NULL DEFAULT 'User'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`account_id`, `username`, `password`, `created_at`) VALUES
-(1, 'tester', 'test', '2026-02-18 09:36:13'),
-(4, 'test2', 'test2', '2026-02-18 10:37:47'),
-(5, 'Jeej', 'Jeej', '2026-02-18 11:54:02'),
-(6, 'test3', 'test', '2026-02-18 12:04:40');
+INSERT INTO `accounts` (`account_id`, `username`, `password`, `created_at`, `Type`) VALUES
+(1, 'tester', 'test', '2026-02-18 09:36:13', 'Admin'),
+(2, 'Almariego', 'james', '2026-02-18 14:09:51', 'Admin'),
+(3, 'Incognito', 'rich', '2026-02-18 14:10:55', 'Admin'),
+(4, 'Montoya', 'dohn', '2026-02-18 14:11:25', 'Admin'),
+(5, 'Santos', 'jeorge', '2026-02-18 14:11:51', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -86,7 +88,7 @@ ALTER TABLE `places`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `places`
