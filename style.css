@@ -124,7 +124,7 @@ nav {
 
 /* Map Page Hero Image */
 .hero-map {
-    background-image: url('images/Map-Temp.jpg');
+    background-image: url('images/Map-Temp.png');
 }
 
 
@@ -635,4 +635,5 @@ body.login-mode footer {
     color: green;
     text-align: center;
     margin: 10px 0 20px 0;
+
 }
