@@ -3,7 +3,7 @@
 
         <div class="footer-nav">
             <a href="discover.php">Discover</a>
-            <a href="map.php">Find A Spot</a>
+            <a href="map.php">Map</a>
             <a href="about.php">About</a>
         </div>
 

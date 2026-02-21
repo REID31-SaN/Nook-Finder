@@ -22,7 +22,7 @@ session_start();
 
     <nav>
         <a href="discover.php" class="nav-link">Discover</a>
-        <a href="map.php" class="nav-link">Find A Spot</a>
+        <a href="map.php" class="nav-link">Map</a>
         <a href="about.php" class="nav-link">About</a>
 
         <?php if (isset($_SESSION['user_id'])): ?>

@@ -2,7 +2,7 @@
 $host = 'localhost';
 $user = 'root';          // XAMPP default
 $pass = '';              // XAMPP default (empty)
-$db   = 'nook_finder';   // database name
+$db   = 'nook_finder';   // Your database name
 
 $conn = new mysqli($host, $user, $pass, $db);
 

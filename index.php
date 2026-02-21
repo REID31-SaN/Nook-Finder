@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 
-<main class="hero">
+<main class="hero hero-home">
     <h1>Find a spot</h1>
     <p>Find your focus.</p>
 </main>

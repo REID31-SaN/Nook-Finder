@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result->num_rows > 0) {
         // Username exists
-        header("Location: register.php?error=exists");
+        header("Location: register.php?error=exists");  
         exit();
     } else {
         // Insert new user into the table
