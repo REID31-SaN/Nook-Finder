@@ -5,18 +5,6 @@
     <p>Find your focus.</p>
 </main>
 
-
-<!-- Login and Logout message -->
-<?php
-if (isset($_GET['login']) && $_GET['login'] == 'success') {
-    echo '<p style="color: green; text-align: center;">Login successful! Welcome back! (,,>ヮ<,,)</p>';
-}
-if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
-    echo '<p style="color: red; text-align: center;">You have been logged out. ヾ(˃ᴗ˂)◞ </p>';
-}
-?>
-<!-- end of Login and Logout message -->
-
 <section class="top-three">
     <div class="top-text">
         <h2>Top 3 Places This Week</h2>
@@ -61,4 +49,5 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'success') {
 </section>
 
 <?php include 'footer.php'; ?>
+
 
