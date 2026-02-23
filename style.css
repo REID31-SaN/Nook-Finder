@@ -707,3 +707,24 @@ body.login-mode footer {
 
 }
 
+/* Badge CSS */
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.open {
+    background-color: #28a745;
+    color: white;
+}
+
+.closed {
+    background-color: #dc3545;
+    color: white;
+}
+
