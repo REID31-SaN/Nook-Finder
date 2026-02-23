@@ -1,6 +1,8 @@
 <?php include 'header.php'; ?>
 
 <?php
+date_default_timezone_set('Asia/Manila');
+
 $cafeName = $_GET['cafe'] ?? 'Cafe Name';
 $cafeImage = $_GET['img'] ?? 'images/default.jpg';
 
@@ -20,7 +22,7 @@ $cafeInfos = [
         "Features" => "Wifi - Available, Power Outlets - Available, Renting - Available, Air-Conditioned"
     ],
     "Cush Lounge" => [
-        "Location" => " 2F MC Place, Brgy. Santo Cristo, Angeles City",
+        "Location" => "2F MC Place, Brgy. Santo Cristo, Angeles City",
         "Hours" => "8 AM - 2 AM (Weekdays), 10 AM - 2 AM (Weekends)",
         "Features" => "Wifi - Available, Power Outlets - Available, Renting - Available, Air-Conditioned"
     ],
@@ -36,7 +38,42 @@ $cafeInfos = [
     ]
 ];
 
-//Fallback incase codes not working and description is unavailable
+/* OPEN/CLOSED FUNCTION  */
+function isOpenNow($cafeName) {
+    $day = date('D');
+    $time = date('H:i');
+
+    switch ($cafeName) {
+
+        case "Co.Create":
+            if ($day == "Sun") {
+                return ($time >= "10:30" && $time <= "19:30");
+            }
+            return ($time >= "08:00" && $time <= "22:00");
+
+        case "Cush Lounge":
+            if (in_array($day, ["Mon","Tue","Wed","Thu","Fri"])) {
+                return ($time >= "08:00" || $time <= "02:00");
+            }
+            return ($time >= "10:00" || $time <= "02:00");
+
+        case "Vessel Coworking Space":
+            if (in_array($day, ["Mon","Tue","Wed","Thu","Fri"])) {
+                return ($time >= "07:00" && $time <= "18:00");
+            }
+            return false;
+
+        case "Kuwento Cafe":
+            return ($time >= "07:00" || $time <= "00:00");
+
+        default:
+            return false;
+    }
+}
+
+$isOpen = isOpenNow($cafeName);
+
+// Fallback in case codes not working and description is unavailable
 $cafeDescription = $descriptions[$cafeName] ?? "No descriptions yet...";
 $info = $cafeInfos[$cafeName] ?? [];
 ?>
@@ -66,14 +103,22 @@ $info = $cafeInfos[$cafeName] ?? [];
             <?php foreach($info as $title => $value): ?>
                 <div class="info-box">
                     <h4><?php echo htmlspecialchars($title); ?></h4>
-                    <p><?php 
-                        //Makes the commas into breaks for info box
+
+                    <?php if($title === "Hours"): ?>
+                        <div class="status-badge <?= $isOpen ? 'open' : 'closed'; ?>">
+                            <?= $isOpen ? 'Open Now' : 'Closed Now'; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <p>
+                        <?php 
                         if(in_array($title, ['Hours', 'Features'])){
                             echo nl2br(str_replace(',', "<br>", htmlspecialchars($value)));
                         } else {
                             echo htmlspecialchars($value);
                         }
-                    ?></p>
+                        ?>
+                    </p>
                 </div>
             <?php endforeach; ?>
         </div>
