@@ -9,6 +9,14 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nook Finder</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- ================================== TEST MAP ================================== -->
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- ================================== END OF TEST MAP ================================== -->
 </head>
 
 <body>
