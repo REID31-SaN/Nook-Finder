@@ -1,6 +1,10 @@
 <?php include 'header.php'; ?>
 
-<main class="hero hero-map">
+<!-- ================================== TEST MAP ================================== -->
+<main class="map">
+    <div id="map" style="height: 100vh; width: 100%;"></div>
+<!-- ================================== END OF TEST MAP ================================== -->
+
     <div class="map-sidebar">
         <h1 class="map-sidebar-text">ACTIONS</h1>
 
