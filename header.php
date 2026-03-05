@@ -34,7 +34,10 @@ session_start();
         <a href="about.php" class="nav-link">About</a>
 
         <?php if (isset($_SESSION['user_id'])): ?>
-            <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</span>
+            <a href="profile.php" class="nav-link">My Profile</a>
+            <a href="profile.php" class="nav-link">
+                Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!
+            </a>
             <a href="logout.php" class="nav-link">Logout</a>
         <?php else: ?>
             <a href="login.php" class="nav-link login-circle">Login / Register</a>
@@ -42,3 +45,4 @@ session_start();
     </nav>
 
 </header>
+
