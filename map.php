@@ -13,7 +13,7 @@
         <div class="sidebar-buttons">
             <a class="sidebar-btn" href="map.php">PIN A PLACE</a>
             <a class="sidebar-btn" href="map.php">APPLY FILTERS</a>
-            <a class="sidebar-btn" href="map.php">FAVOURITES</a>
+            <a class="sidebar-btn" href="profile.php#my-favourites">FAVOURITES</a>
         </div>
 
         <a class="sidebar-btn propose-location" href="map.php">PROPOSE<br>LOCATION</a>
@@ -68,4 +68,5 @@
 </section>
 
 <?php include 'footer.php'; ?>
+
 
