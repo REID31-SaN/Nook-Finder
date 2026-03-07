@@ -1,0 +1,928 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ---------- HEADER ---------- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #FFF3DB;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo img {
+    height: 35px;
+    width: auto;
+    display: block;
+}
+
+nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 700;           
+    transition: transform 0.2s ease;
+}
+
+.nav-link:hover {
+    transform: scale(1.2);     
+}
+
+/* Login Button */
+.login-circle {
+    background-color: #6D3E1C; 
+    color: white;               
+    padding: 0.5rem 1rem;       
+    border-radius: 4px;       
+    font-weight: 700;           
+}
+
+/* ---------- MOBILE VERSION (ORIGINAL HEADER FIXES) ---------- */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo {
+        margin-bottom: 1rem; 
+    }
+
+    nav {
+        flex-direction: row;       
+        justify-content: center;    
+        gap: 0.5rem;               
+        flex-wrap: wrap;          
+    }
+
+    .nav-link {
+        background-color: #6D3E1C; 
+        color: white;
+        padding: 0.3rem 0.6rem;   
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.9rem;       
+        text-align: center;
+        transition: transform 0.2s ease;
+    }
+
+    .nav-link:hover {
+        transform: scale(1.1);    
+    }
+}
+
+/* HERO MAIN*/
+.hero {
+    background-size: cover;
+    background-position: center;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    color: white;
+}
+
+.hero h1, .hero p {
+    position: relative;
+    z-index: 2;
+}
+
+/* Dark Overlay*/
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+}
+
+/* Homepage Hero Image */
+.hero-home {
+    background-image: url('images/heroIMG.jpg');
+}
+
+.hero-home::before {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+
+/* ---------- TOP 3 SECTION ---------- */
+.top-three {
+    margin-top: 60px;
+    padding: 60px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 70vh;
+    width: 100%;
+    background: #fff;
+}
+
+.top-text {
+    width: 30%;
+    padding-right: 20px;
+}
+
+.top-text h2 {
+    font-size: 42px;
+    margin-bottom: 15px;
+    color: #222;
+    line-height: 1.2;
+}
+
+.top-text p {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.top-images {
+    width: 65%;
+    display: flex;
+    gap: 25px;
+}
+
+/* ---------- PLACE CARDS ---------- */
+.place-card {
+    position: relative;
+    width: 100%;
+    transition: transform 0.3s ease;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.place-card:hover {
+    transform: translateY(-5px);
+}
+
+.place-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.place-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+    color: white;
+    text-align: left;
+    border-radius: 0 0 10px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ---------- DISCOVER SECTION ---------- */
+.discover {
+    margin-top: 80px;
+    padding: 30px 80px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.discover-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.discover-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+
+/* ---------- MAP UI OVERHAUL ---------- */
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 68px); 
+    overflow: hidden;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Actions sidebar container */
+.map-sidebar {
+    position: absolute;
+    z-index: 1000;
+    top: 25px;
+    right: 30px;
+    width: 280px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    
+    background: rgba(255, 243, 219, 0.90); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    padding: 25px 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    border: 1px solid rgba(109, 62, 28, 0.1);
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.map-sidebar-text {
+    color: #6D3E1C;
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* Search box */
+.search-box {
+    padding: 10px 10px 10px 40px;
+    border-radius: 50px;
+    color: #6D3E1C;
+    border: 1px solid rgba(109, 62, 28, 0.3);
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    background-image: url('images/Search-Icon.png');
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    background-size: 16px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: #6D3E1C;
+    box-shadow: 0 0 5px rgba(109, 62, 28, 0.4);
+}
+
+/* Action buttons */
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidebar-btn {
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #6D3E1C;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid rgba(109, 62, 28, 0.1);
+}
+
+.sidebar-btn:hover {
+    background: #6D3E1C;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(109, 62, 28, 0.2);
+}
+
+.propose-location {
+    margin-top: 20px;
+    background: #6D3E1C;
+    color: #FFF3DB;
+}
+
+.propose-location:hover {
+    background: #522e15;
+    color: white;
+}
+
+
+/* ---------- FOOTER (Desktop Default) ---------- */
+footer {
+    background-color: #6D3E1C;
+    color: #FFF3DB;
+    padding: 20px 80px;
+    margin-top: 80px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-nav a {
+    text-decoration: none;
+    color: #FFF3DB;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-nav a:hover {
+    transform: translateX(5px);
+    opacity: 0.8;
+}
+
+.footer-logo img {
+    height: 45px;
+    width: auto;
+    display: block;
+}
+
+.footer-bottom {
+    margin-top: 40px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+
+/* =======================================================
+   LOGIN PAGE STYLES (SCOPED)
+   ======================================================= */
+body.login-mode {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    overflow: hidden; 
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.login-mode main {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+}
+
+body.login-mode footer {
+    margin-top: 0; 
+}
+
+.login-container {
+    width: 400px;               
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;                 
+    padding: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    outline: none;
+    border-color: #6D3E1C;
+    box-shadow: 0 0 6px rgba(109, 62, 28, 0.3);
+}
+
+.login-btn {
+    width: 100%;                
+    background-color: #6D3E1C;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: #9e4511;
+}
+
+.error-msg {
+    color: red;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+
+/* =======================================================
+   RESPONSIVE MEDIA QUERIES
+   ======================================================= */
+
+@media (max-width: 1024px) {
+    .top-three {
+        padding: 40px;      
+        flex-direction: column; 
+        text-align: center;
+    }
+
+    .top-text {
+        width: 100%;
+        margin-bottom: 30px;
+        padding-right: 0;
+    }
+
+    .top-images {
+        width: 100%;
+    }
+
+    .discover {
+        padding: 30px 40px;
+    }
+
+    .discover-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-nav {
+        align-items: center;
+    }
+
+    .footer-bottom {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .top-three {
+        margin-top: 20px;
+        padding: 20px;      
+        height: auto;
+    }
+    
+    .top-images {
+        flex-direction: column; 
+        gap: 15px;
+    }
+    
+    .place-card img {
+        height: 200px; 
+    }
+
+    .discover {
+        margin-top: 40px;
+        padding: 20px;
+    }
+
+    .discover-title {
+        font-size: 28px;
+    }
+
+    .discover-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    /* MOBILE MAP OVERHAUL */
+    .map-wrapper {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+    }
+    
+    #map {
+        position: relative;
+        height: 50vh; 
+    }
+    
+    .map-sidebar {
+        position: relative;
+        top: 0;
+        right: 0;
+        width: 100%;
+        max-height: none;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        background: #FFF3DB; 
+        border-top: 2px solid rgba(109, 62, 28, 0.2);
+    }
+
+    /* PROFILE FIXES */
+    .profile-container {
+        padding: 20px 10px;
+    }
+
+    .profile-box {
+        padding: 20px;
+        width: 95%;
+    }
+}
+
+
+/* ---------- CAFE WINDOW ---------- */
+.cafe-top {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+}
+
+.cafe-hero {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+    object-position: center;
+}
+
+.frosted {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+}
+
+.frosted h1 {
+    margin: 0;
+    color: white;
+    font-size: 28px;
+}
+
+.cafe-bottom {
+    padding: 60px 10%;
+    background: #f7f7f7;
+}
+
+.info-container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.info-container h2 {
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.info-container p {
+    margin-bottom: 40px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.info-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+}
+
+.info-box {
+    flex: 1;
+    min-width: 250px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.info-box h4 {
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .info-grid {
+        flex-direction: column;
+        gap: 15px;               
+    }
+}
+
+
+/* ---------- ABOUT PAGE ---------- */
+.about-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 20px;
+    padding-top: 40px; 
+}
+
+.about-header {
+    text-align: center; 
+    margin-bottom: 40px;
+}
+
+.about-header h1 {
+    position: static; 
+    margin-bottom: 5px;
+    font-size: 3rem;
+}
+
+.about-tagline {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #6D3E1C;
+}
+
+.about-box {
+    background-color: #6D3E1C; 
+    color: #FFF3DB;            
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.about-box h2 {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 28px;
+    color: #FFF3DB; 
+    border-bottom: 2px solid rgba(255, 243, 219, 0.3); 
+    padding-bottom: 10px;
+}
+
+.about-box p {
+    margin-bottom: 20px;
+    line-height: 1.7;
+    color: #f0e6d2; 
+    font-size: 1.05rem;
+    text-align: justify;
+    position: static; 
+}
+
+.about-list {
+    list-style-type: disc;
+    padding-left: 40px;
+    margin-bottom: 10px;
+    color: #f0e6d2;
+}
+
+.about-list li {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.about-list strong {
+    color: #FFF3DB; 
+}
+
+@media (max-width: 1024px) {
+    .about-wrapper {
+        padding: 20px;
+    }
+    .about-box {
+        padding: 25px; 
+    }
+    .about-box p {
+        text-align: left; 
+    }
+}
+
+/* ---------- STATUS BADGES ---------- */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.open {
+    background-color: #28a745;
+    color: white;
+}
+
+.closed {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* ---------- PROFILE PAGE ---------- */
+.profile-container {
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    border: 4px solid #6D3E1C;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-header h1 {
+    color: #6D3E1C;
+}
+
+.profile-box h2 {
+    color: #FFF3DB;
+}
+
+.profile-box {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #6D3E1C;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profile-form .form-group {
+    margin-bottom: 20px;
+}
+
+.profile-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #FFF3DB;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="password"],
+.profile-form input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.update-btn {
+    width: 100%;
+    background-color: #6D3E1C;
+    color: #FFF3DB;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.update-btn:hover {
+    background-color: #522e15;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #6D3E1C; 
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+input[type="file"] {
+    background-color: white;
+    color: #333;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+/* =======================================================
+   NEW STYLING FOR HEART BUTTONS & FAV BUTTONS
+   ======================================================= */
+
+/* Heart icon on Place Cards */
+.heart-btn {
+    position: relative;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 1.6rem; 
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.heart-btn:hover {
+    transform: scale(1.15);
+}
+
+/* Big Action Button (Inside cafe_window.php) */
+.btn-fav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-fav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* "Add to Favorites" State (Unfavorited) */
+.btn-fav.fav {
+    background-color: #FFF3DB; /* Cream Background */
+    color: #6D3E1C;            /* Brown Text */
+    border: 2px solid #6D3E1C;
+}
+
+.btn-fav.fav:hover {
+    background-color: #faeac8;
+}
+
+/* "Remove from Favorites" State (Favorited) */
+.btn-fav.unfav {
+    background-color: #6D3E1C; /* Brown Background */
+    color: #FFF3DB;            /* Cream Text */
+    border: 2px solid #6D3E1C;
+}
+
+.btn-fav.unfav:hover {
+    background-color: #522e15; /* Darker brown */
+    border-color: #522e15;
+}
