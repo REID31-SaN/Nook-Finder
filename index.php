@@ -1,4 +1,4 @@
-<?php include 'header.php'; ?>
+<?php include_once 'header.php'; ?>
 
 <main class="hero hero-home">
     <h1>Find a spot</h1>
@@ -12,16 +12,25 @@
     </div>
     <div class="top-images">
         <div class="place-card">
-            <img src="images/OFTR.jpg" alt="oFTr">
-            <div class="place-name">oFTr</div>
+            <a href="cafe_window.php?cafe=oFTr&img=images/OFTR.jpg" style="display:block;"><img src="images/OFTR.jpg" alt="oFTr"></a>
+            <div class="place-name">
+                <a href="cafe_window.php?cafe=oFTr&img=images/OFTR.jpg" style="text-decoration:none; color:inherit; flex-grow:1;"><span>oFTr</span></a>
+                <?= renderHeartButton("oFTr", "images/OFTR.jpg") ?>
+            </div>
         </div>
         <div class="place-card">
-            <img src="images/aclib.jpg" alt="Angeles City Library">
-            <div class="place-name">Angeles City Library</div>
+            <a href="cafe_window.php?cafe=Angeles City Library&img=images/ACLib.jpg" style="display:block;"><img src="images/ACLib.jpg" alt="Angeles City Library"></a>
+            <div class="place-name">
+                <a href="cafe_window.php?cafe=Angeles City Library&img=images/ACLib.jpg" style="text-decoration:none; color:inherit; flex-grow:1;"><span>Angeles City Library</span></a>
+                <?= renderHeartButton("Angeles City Library", "images/ACLib.jpg") ?>
+            </div>
         </div>
         <div class="place-card">
-            <img src="images/brudr.jpg" alt="BRÜDR">
-            <div class="place-name">BRÜDR</div>
+            <a href="cafe_window.php?cafe=BRUDR&img=images/BRUDR.jpg" style="display:block;"><img src="images/BRUDR.jpg" alt="BRÜDR"></a>
+            <div class="place-name">
+                <a href="cafe_window.php?cafe=BRUDR&img=images/BRUDR.jpg" style="text-decoration:none; color:inherit; flex-grow:1;"><span>BRÜDR</span></a>
+                <?= renderHeartButton("BRUDR", "images/BRUDR.jpg") ?>
+            </div>
         </div>
     </div>
 </section>
@@ -29,25 +38,35 @@
 <section class="discover">
     <h2 class="discover-title">Discover</h2>
     <div class="discover-cards">
-        <a href="cafe_window.php?cafe=Co.Create&img=images/Cocreate.png" class="place-card">
-            <img src="images/CoCreate.PNG" alt="Co.Create">
-            <div class="place-name">Co.Create</div>
-        </a>
-        <a href="cafe_window.php?cafe=Cush Lounge&img=images/cush.jpg" class="place-card">
-            <img src="images/Cush.jpg" alt="Cush Lounge">
-            <div class="place-name">Cush Lounge</div>
-        </a>
-        <a href="cafe_window.php?cafe=Vessel Coworking Space&img=images/vessel.jpg" class="place-card">
-            <img src="images/Vessel.jpg" alt="Vessel Coworking space">
-            <div class="place-name">Vessel Coworking space</div>
-        </a>
-        <a href="cafe_window.php?cafe=Kuwento Cafe&img=images/kwento.jpg" class="place-card">
-            <img src="images/kwento.jpg" alt="Kuwento Cafe">
-            <div class="place-name">Kuwento Cafe</div>
-        </a>
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Co.Create&img=images/CoCreate.PNG" style="display:block;"><img src="images/CoCreate.PNG" alt="Co.Create"></a>
+            <div class="place-name">
+                <a href="cafe_window.php?cafe=Co.Create&img=images/CoCreate.PNG" style="text-decoration:none; color:inherit; flex-grow:1;"><span>Co.Create</span></a>
+                <?= renderHeartButton("Co.Create", "images/CoCreate.PNG") ?>
+            </div>
+        </div>
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Cush Lounge&img=images/Cush.jpg" style="display:block;"><img src="images/Cush.jpg" alt="Cush Lounge"></a>
+            <div class="place-name">
+                <a href="cafe_window.php?cafe=Cush Lounge&img=images/Cush.jpg" style="text-decoration:none; color:inherit; flex-grow:1;"><span>Cush Lounge</span></a>
+                <?= renderHeartButton("Cush Lounge", "images/Cush.jpg") ?>
+            </div>
+        </div>
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Vessel Coworking Space&img=images/Vessel.jpg" style="display:block;"><img src="images/Vessel.jpg" alt="Vessel Coworking space"></a>
+            <div class="place-name">
+                <a href="cafe_window.php?cafe=Vessel Coworking Space&img=images/Vessel.jpg" style="text-decoration:none; color:inherit; flex-grow:1;"><span>Vessel Coworking</span></a>
+                <?= renderHeartButton("Vessel Coworking Space", "images/Vessel.jpg") ?>
+            </div>
+        </div>
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Kuwento Cafe&img=images/kwento.jpg" style="display:block;"><img src="images/kwento.jpg" alt="Kuwento Cafe"></a>
+            <div class="place-name">
+                <a href="cafe_window.php?cafe=Kuwento Cafe&img=images/kwento.jpg" style="text-decoration:none; color:inherit; flex-grow:1;"><span>Kuwento Cafe</span></a>
+                <?= renderHeartButton("Kuwento Cafe", "images/kwento.jpg") ?>
+            </div>
+        </div>
     </div>
 </section>
 
 <?php include 'footer.php'; ?>
-
-

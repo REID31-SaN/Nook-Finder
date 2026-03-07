@@ -1,9 +1,7 @@
-<?php include 'header.php'; ?>
+<?php include_once 'header.php'; ?>
 
-<!-- ================================== TEST MAP ================================== -->
-<main class="map">
-    <div id="map" style="height: 100vh; width: 100%;"></div>
-<!-- ================================== END OF TEST MAP ================================== -->
+<main class="map-wrapper">
+    <div id="map"></div>
 
     <div class="map-sidebar">
         <h1 class="map-sidebar-text">ACTIONS</h1>
@@ -13,7 +11,7 @@
         <div class="sidebar-buttons">
             <a class="sidebar-btn" href="map.php">PIN A PLACE</a>
             <a class="sidebar-btn" href="map.php">APPLY FILTERS</a>
-            <a class="sidebar-btn" href="profile.php#my-favourites">FAVOURITES</a>
+            <a class="sidebar-btn" href="favorites.php">FAVOURITES</a>
         </div>
 
         <a class="sidebar-btn propose-location" href="map.php">PROPOSE<br>LOCATION</a>
@@ -29,44 +27,64 @@
     </div>
 
     <div class="discover-cards">
-
-        <a href="cafe_window.php?cafe=Co.Create&img=images/CoCreate.PNG" class="place-card">
-            <img src="images/CoCreate.PNG" alt="Co.Create">
-            <div class="place-name">
-                Co.Create
-                <div class="distance">📍 0.8 km away</div>
-            </div>
-        </a>
-
-        <a href="cafe_window.php?cafe=Cush Lounge&img=images/cush.jpg" class="place-card">
-            <img src="images/Cush.jpg" alt="Cush Lounge">
-            <div class="place-name">
-                Cush Lounge
-                <div class="distance">📍 1.0 km away</div>
-            </div>
-        </a>
-
-        <a href="cafe_window.php?cafe=Vessel Coworking Space&img=images/vessel.jpg" class="place-card">
-            <img src="images/Vessel.jpg" alt="Vessel Coworking">
-            <div class="place-name">
-                Vessel Coworking
-                <div class="distance">📍 1.6 km away</div>
-            </div>
-        </a>
-
-        <a href="cafe_window.php?cafe=Kuwento Cafe&img=images/kwento.jpg" class="place-card">
-            <img src="images/kwento.jpg" alt="Kuwento Cafe">
-            <div class="place-name">
-                Kuwento Cafe
-                <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
-                    <span style="font-size: 0.8rem;">📍 1.2 km away</span>
+        
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Co.Create&img=images/CoCreate.PNG" style="text-decoration: none; color: inherit; display: block;">
+                <img src="images/CoCreate.PNG" alt="Co.Create">
+                <div class="place-name">
+                    <div>
+                        Co.Create
+                        <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
+                            📍 0.8 km away
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
-    </a>
+
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Cush Lounge&img=images/Cush.jpg" style="text-decoration: none; color: inherit; display: block;">
+                <img src="images/Cush.jpg" alt="Cush Lounge">
+                <div class="place-name">
+                    <div>
+                        Cush Lounge
+                        <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
+                            📍 1.0 km away
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Vessel Coworking Space&img=images/Vessel.jpg" style="text-decoration: none; color: inherit; display: block;">
+                <img src="images/Vessel.jpg" alt="Vessel Coworking">
+                <div class="place-name">
+                    <div>
+                        Vessel Coworking
+                        <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
+                            📍 1.6 km away
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="place-card">
+            <a href="cafe_window.php?cafe=Kuwento Cafe&img=images/kwento.jpg" style="text-decoration: none; color: inherit; display: block;">
+                <img src="images/kwento.jpg" alt="Kuwento Cafe">
+                <div class="place-name">
+                    <div>
+                        Kuwento Cafe
+                        <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">
+                            📍 1.2 km away
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
 </section>
 
 <?php include 'footer.php'; ?>
-
-

@@ -1,7 +1,5 @@
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
--- https://www.phpmyadmin.net/
---
 -- Host: 127.0.0.1
 -- Generation Time: Mar 01, 2026 at 09:07 AM
 -- Server version: 10.4.32-MariaDB
@@ -10,7 +8,6 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,12 +48,14 @@ INSERT INTO `accounts` (`account_id`, `username`, `password`, `created_at`, `Typ
 
 --
 -- Table structure for table `favorites`
+-- (UPDATED FOR DIRECT CAFE NAMES AND IMAGES)
 --
 
 CREATE TABLE `favorites` (
   `id` int(11) NOT NULL,
   `account_id` int(11) NOT NULL,
-  `place_id` int(11) NOT NULL,
+  `cafe_name` varchar(100) NOT NULL,
+  `cafe_image` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,8 +91,7 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `favorites`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `account_id` (`account_id`,`place_id`),
-  ADD KEY `place_id` (`place_id`);
+  ADD KEY `account_id` (`account_id`);
 
 --
 -- Indexes for table `places`
@@ -110,7 +108,7 @@ ALTER TABLE `places`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `favorites`
@@ -132,8 +130,7 @@ ALTER TABLE `places`
 -- Constraints for table `favorites`
 --
 ALTER TABLE `favorites`
-  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `favorites_ibfk_2` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `places`
