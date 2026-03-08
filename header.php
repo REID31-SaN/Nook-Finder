@@ -42,9 +42,10 @@ function renderHeartButton($cafeName, $cafeImage) {
     <title>Nook Finder</title>
     <link rel="stylesheet" href="style.css">
 
+    <!-- For map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- End - For map -->
 
     <script>
         function toggleFavAJAX(e, btn) {
@@ -114,4 +115,5 @@ function renderHeartButton($cafeName, $cafeImage) {
             <a href="login.php" class="nav-link login-circle">Login / Register</a>
         <?php endif; ?>
     </nav>
+
 </header>
