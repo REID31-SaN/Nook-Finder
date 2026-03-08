@@ -241,7 +241,7 @@ nav {
     right: 30px;
     width: 280px;
     max-height: calc(100vh - 120px);
-    overflow-y: auto;
+    overflow: visible; /* from overflow-y:auto; to visible for map suggestions dropdown*/
     
     background: rgba(255, 243, 219, 0.90); 
     backdrop-filter: blur(8px);
@@ -925,4 +925,5 @@ input[type="file"] {
 .btn-fav.unfav:hover {
     background-color: #522e15; /* Darker brown */
     border-color: #522e15;
+
 }
