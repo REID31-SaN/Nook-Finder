@@ -5,12 +5,12 @@ include_once 'config.php';
 // Fetch user favorites globally so any card can check if it's favorited
 $user_favorites = [];
 if (isset($_SESSION['user_id']) && isset($conn)) {
-    $fav_stmt = $conn->prepare("SELECT cafe_name FROM favorites WHERE account_id = ?");
+    $fav_stmt = $conn->prepare("SELECT p.name FROM favorites f JOIN places p ON f.place_id = p.id WHERE f.account_id = ?");
     $fav_stmt->bind_param("i", $_SESSION['user_id']);
     $fav_stmt->execute();
     $fav_res = $fav_stmt->get_result();
     while($row = $fav_res->fetch_assoc()) {
-        $user_favorites[] = $row['cafe_name'];
+        $user_favorites[] = $row['name'];
     }
 }
 

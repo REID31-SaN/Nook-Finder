@@ -65,7 +65,7 @@ $display_img = (!empty($user_data['profile_pic']) && file_exists($user_data['pro
         
         <?php
         // Fetch up to 4 recent favorites for preview
-        $fav_stmt = $conn->prepare("SELECT cafe_name, cafe_image FROM favorites WHERE account_id = ? ORDER BY created_at DESC LIMIT 4");
+        $fav_stmt = $conn->prepare("SELECT p.name, p.image FROM favorites f JOIN places p ON f.place_id = p.id WHERE f.account_id = ? ORDER BY f.created_at DESC LIMIT 4");
         $fav_stmt->bind_param("i", $user_id);
         $fav_stmt->execute();
         $fav_res = $fav_stmt->get_result();
@@ -75,10 +75,10 @@ $display_img = (!empty($user_data['profile_pic']) && file_exists($user_data['pro
             <?php if($fav_res->num_rows > 0): ?>
                 <?php while($fav = $fav_res->fetch_assoc()): ?>
                     <div class="place-card">
-                        <a href="cafe_window.php?cafe=<?= urlencode($fav['cafe_name']) ?>&img=<?= urlencode($fav['cafe_image']) ?>" style="text-decoration: none; color: inherit; display: block; height: 100%;">
-                            <img src="<?= htmlspecialchars($fav['cafe_image']) ?>" alt="<?= htmlspecialchars($fav['cafe_name']) ?>" style="height: 200px; object-fit:cover; width:100%;">
+                        <a href="cafe_window.php?cafe=<?= urlencode($fav['name']) ?>&img=<?= urlencode($fav['image']) ?>" style="text-decoration: none; color: inherit; display: block; height: 100%;">
+                            <img src="<?= htmlspecialchars($fav['image']) ?>" alt="<?= htmlspecialchars($fav['name']) ?>" style="height: 200px; object-fit:cover; width:100%;">
                             <div class="place-name">
-                                <span><?= htmlspecialchars($fav['cafe_name']) ?></span>
+                                <span><?= htmlspecialchars($fav['name']) ?></span>
                             </div>
                         </a>
                     </div>
