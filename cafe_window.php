@@ -37,7 +37,22 @@ $cafeInfos = [
         "Location" => "Unit 101 Mission Plaza Bldg, MacArthur Hwy, Angeles, 2009 Pampanga",
         "Hours" => "7 AM - 12 AM (Daily)",
         "Features" => "Wifi - Available, Power Outlets - Available, Renting - Available, Air-Conditioned"
-    ]
+    ],
+    "oFTr" => [
+        "Location" => "2F, Bart Mall, Santo Rosario St, Angeles, 2009 Pampanga",
+        "Hours" => "8 AM - 8 PM (Daily)",
+        "Features" => "Power Outlets - Available,  Air-Conditioned"
+    ],   
+    "Angeles City Library" => [
+        "Location" => "Santo Entierro St, Angeles City, 2009 Pampanga",
+        "Hours" => "9 AM - 5 PM (Daily)",
+        "Features" => "Wifi - Available, Power Outlets - Available,  Air-Conditioned"
+    ],
+    "BRUDR" => [
+        "Location" => "Miranda Street, Angeles City, Philippines, 2009 Pampanga",
+        "Hours" => "10 AM - 10 PM (Daily)",
+        "Features" => "Power Outlets - Available,  Air-Conditioned"
+    ]    
 ];
 
 function isOpenNow($cafeName) {
@@ -161,3 +176,4 @@ $info = $cafeInfos[$cafeName] ?? [];
 
 
 <?php include 'footer.php'; ?>
+
