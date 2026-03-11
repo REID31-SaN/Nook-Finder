@@ -1,13 +1,16 @@
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2026 at 09:07 AM
+-- Generation Time: Mar 11, 2026 at 02:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,26 +40,24 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`account_id`, `username`, `password`, `created_at`, `Type`) VALUES
-(1, 'tester', 'test', '2026-02-18 09:36:13', 'Admin'),
-(2, 'Almariego', 'james', '2026-02-18 14:09:51', 'Admin'),
-(3, 'Incognito', 'rich', '2026-02-18 14:10:55', 'Admin'),
-(4, 'Montoya', 'dohn', '2026-02-18 14:11:25', 'Admin'),
-(5, 'Santos', 'jeorge', '2026-02-18 14:11:51', 'Admin');
+INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `created_at`, `Type`) VALUES
+(1, 'tester', 'test', NULL, '2026-02-18 09:36:13', 'Admin'),
+(2, 'Almariego', 'james', NULL, '2026-02-18 14:09:51', 'Admin'),
+(3, 'Incognito', 'rich', 'uploads/1773058865_jarbihs.png', '2026-02-18 14:10:55', 'Admin'),
+(4, 'Montoya', 'dohn', NULL, '2026-02-18 14:11:25', 'Admin'),
+(5, 'Santos', 'jeorge', NULL, '2026-02-18 14:11:51', 'Admin');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `favorites`
--- (UPDATED FOR DIRECT CAFE NAMES AND IMAGES)
 --
 
 CREATE TABLE `favorites` (
   `id` int(11) NOT NULL,
   `account_id` int(11) NOT NULL,
-  `cafe_name` varchar(100) NOT NULL,
-  `cafe_image` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `place_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -72,8 +73,23 @@ CREATE TABLE `places` (
   `distance_km` decimal(3,1) NOT NULL,
   `description` text DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `places`
+--
+
+INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `created_by`, `created_at`, `image`) VALUES
+(1, 'Kuwento Cafe', 'Angeles City, Pampanga', 1.3, 'A cozy cafe near HAU perfect for studying and relaxing.', NULL, '2026-03-09 12:47:54', 'images/kwento.jpg'),
+(2, 'Cush Lounge', 'Angeles City, Pampanga', 1.4, 'A comfortable lounge space for students to unwind and work.', NULL, '2026-03-09 12:47:54', 'images/Cush.jpg'),
+(3, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.6, 'A coworking space ideal for collaborative work and meetings.', NULL, '2026-03-09 12:47:54', 'images/Vessel.jpg'),
+(4, 'Co.Create', 'Angeles City, Pampanga', 0.3, 'A creative shared workspace close to HAU.', NULL, '2026-03-09 12:47:54', 'images/CoCreate.PNG'),
+(5, 'oFTr', 'Angeles City, Pampanga', 0.3, 'A student-friendly nook near the university.', NULL, '2026-03-09 12:47:54', 'images/OFTR.jpg'),
+(6, 'Angeles City Library', 'Angeles City, Pampanga', 0.8, 'A public library offering a quiet space for focused study.', NULL, '2026-03-09 12:47:54', 'images/ACLib.jpg'),
+(7, 'BRUDR', 'Angeles City, Pampanga', 0.5, 'A cafe and hangout spot near HAU.', NULL, '2026-03-09 12:47:54', 'images/BRUDR.jpg'),
+(8, 'Arte Cafe', 'Angeles City, Pampanga', 1.0, 'An artsy cafe with a relaxed atmosphere for students.', NULL, '2026-03-09 12:47:54', 'images/ARTE.jpg');
 
 --
 -- Indexes for dumped tables
@@ -91,7 +107,8 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `favorites`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `account_id` (`account_id`);
+  ADD KEY `account_id` (`account_id`),
+  ADD KEY `fk_favorites_place` (`place_id`);
 
 --
 -- Indexes for table `places`
@@ -114,13 +131,13 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `places`
 --
 ALTER TABLE `places`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -130,12 +147,14 @@ ALTER TABLE `places`
 -- Constraints for table `favorites`
 --
 ALTER TABLE `favorites`
-  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_favorites_place` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `places`
 --
 ALTER TABLE `places`
+  ADD CONSTRAINT `fk_places_account` FOREIGN KEY (`created_by`) REFERENCES `accounts` (`account_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `places_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `accounts` (`account_id`);
 COMMIT;
 
