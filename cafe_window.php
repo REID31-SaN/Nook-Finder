@@ -11,7 +11,10 @@ $descriptions = [
     "Co.Create" => "A modern collaborative coworking space designed for productivity and creativity.",
     "Cush Lounge" => "Is a cozy, premium co-working and relaxation spot for students and remote workers in Angeles City (MC Place)",
     "Vessel Coworking Space" => "A professional coworking environment perfect for startups and remote workers.",
-    "Kuwento Cafe" => "Cozy workspace vibes Matcha Bar Supporting local farmers, and local roasters, a warm cafe space where stories are shared over great coffee."
+    "Kuwento Cafe" => "Cozy workspace vibes Matcha Bar Supporting local farmers, and local roasters, a warm cafe space where stories are shared over great coffee.",
+    "oFTr" => "Small and Cozy hangout spot, Perfect for a quick break and small group study.",
+    "Angeles City Library" => "Located in the heart of Angeles City, this library offers a quiet, well-equipped environment with a wealth of materials for students",
+    "BRUDR" => "A bistro styel cafe that serves good food and coffee, with a cozy ambiance perfect for work or study.",
 ];
 
 $cafeInfos = [
@@ -155,5 +158,6 @@ $info = $cafeInfos[$cafeName] ?? [];
 
 </body>
 </html>
+
 
 <?php include 'footer.php'; ?>
