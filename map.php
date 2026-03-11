@@ -180,7 +180,7 @@ map.on('click', function(e) {
         // Ask Nominatim (OpenStreetMap) to find places matching the query
         // bounded=1 means only return results inside the viewbox (our ~3km radius around HAU)
         // Viewbox Orientation: west, north, east, south
-        var viewbox = '120.5614,15.1633,120.6214,15.1033';
+        var viewbox = '120.5764,15.1483,120.6064,15.1183';
         var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=10&bounded=1&viewbox=' + viewbox + '&q=' + encodeURIComponent(query);
 
         fetch(url)
@@ -258,3 +258,4 @@ map.on('click', function(e) {
 <!-- ================================== END OF TEST MAP ================================== -->
 </body>
 </html>
+
