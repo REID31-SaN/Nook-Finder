@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2026 at 02:14 PM
+-- Generation Time: Mar 12, 2026 at 02:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,6 @@ CREATE TABLE `accounts` (
 --
 -- Dumping data for table `accounts`
 --
-
 INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `created_at`, `Type`) VALUES
 (1, 'tester', 'test', NULL, '2026-02-18 09:36:13', 'Admin'),
 (2, 'Almariego', 'james', NULL, '2026-02-18 14:09:51', 'Admin'),
@@ -74,22 +73,24 @@ CREATE TABLE `places` (
   `description` text DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `image` varchar(255) DEFAULT NULL
+  `image` varchar(255) DEFAULT NULL,
+  `latitude` decimal(10,7) NOT NULL,
+  `longitude` decimal(10,7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `places`
 --
 
-INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `created_by`, `created_at`, `image`) VALUES
-(1, 'Kuwento Cafe', 'Angeles City, Pampanga', 1.3, 'A cozy cafe near HAU perfect for studying and relaxing.', NULL, '2026-03-09 12:47:54', 'images/kwento.jpg'),
-(2, 'Cush Lounge', 'Angeles City, Pampanga', 1.4, 'A comfortable lounge space for students to unwind and work.', NULL, '2026-03-09 12:47:54', 'images/Cush.jpg'),
-(3, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.6, 'A coworking space ideal for collaborative work and meetings.', NULL, '2026-03-09 12:47:54', 'images/Vessel.jpg'),
-(4, 'Co.Create', 'Angeles City, Pampanga', 0.3, 'A creative shared workspace close to HAU.', NULL, '2026-03-09 12:47:54', 'images/CoCreate.PNG'),
-(5, 'oFTr', 'Angeles City, Pampanga', 0.3, 'A student-friendly nook near the university.', NULL, '2026-03-09 12:47:54', 'images/OFTR.jpg'),
-(6, 'Angeles City Library', 'Angeles City, Pampanga', 0.8, 'A public library offering a quiet space for focused study.', NULL, '2026-03-09 12:47:54', 'images/ACLib.jpg'),
-(7, 'BRUDR', 'Angeles City, Pampanga', 0.5, 'A cafe and hangout spot near HAU.', NULL, '2026-03-09 12:47:54', 'images/BRUDR.jpg'),
-(8, 'Arte Cafe', 'Angeles City, Pampanga', 1.0, 'An artsy cafe with a relaxed atmosphere for students.', NULL, '2026-03-09 12:47:54', 'images/ARTE.jpg');
+INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `created_by`, `created_at`, `image`, `latitude`, `longitude`) VALUES
+(1, 'Kuwento Cafe',           'Angeles City, Pampanga', 1.3, 'A cozy cafe near HAU perfect for studying and relaxing.',       NULL, '2026-03-09 12:47:54', 'images/kwento.jpg',   15.1344100, 120.5971200),
+(2, 'Cush Lounge',            'Angeles City, Pampanga', 1.4, 'A comfortable lounge space for students to unwind and work.',   NULL, '2026-03-09 12:47:54', 'images/Cush.jpg',     15.1521700, 120.5925400),
+(3, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.6, 'A coworking space ideal for collaborative work and meetings.',  NULL, '2026-03-09 12:47:54', 'images/Vessel.jpg',   15.1368900, 120.5918900),
+(4, 'Co.Create',              'Angeles City, Pampanga', 0.3, 'A creative shared workspace close to HAU.',                     NULL, '2026-03-09 12:47:54', 'images/CoCreate.PNG', 15.1332700, 120.5918200),
+(5, 'oFTr',                   'Angeles City, Pampanga', 0.3, 'A student-friendly nook near the university.',                  NULL, '2026-03-09 12:47:54', 'images/OFTR.jpg',     15.1343900, 120.5914300),
+(6, 'Angeles City Library',   'Angeles City, Pampanga', 0.8, 'A public library offering a quiet space for focused study.',    NULL, '2026-03-09 12:47:54', 'images/ACLib.jpg',    15.1352800, 120.5908100),
+(7, 'BRUDR',                  'Angeles City, Pampanga', 0.5, 'A cafe and hangout spot near HAU.',                             NULL, '2026-03-09 12:47:54', 'images/BRUDR.jpg',    15.1363800, 120.5907000),
+(8, 'Arte Cafe',              'Angeles City, Pampanga', 1.0, 'An artsy cafe with a relaxed atmosphere for students.',         NULL, '2026-03-09 12:47:54', 'images/ARTE.jpg',     15.1384300, 120.5935200);
 
 --
 -- Indexes for dumped tables
@@ -131,13 +132,13 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `places`
 --
 ALTER TABLE `places`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
