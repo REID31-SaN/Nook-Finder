@@ -3,14 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2026 at 02:35 PM
+-- Generation Time: Mar 13, 2026 at 12:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -39,6 +38,7 @@ CREATE TABLE `accounts` (
 --
 -- Dumping data for table `accounts`
 --
+
 INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `created_at`, `Type`) VALUES
 (1, 'tester', 'test', NULL, '2026-02-18 09:36:13', 'Admin'),
 (2, 'Almariego', 'james', NULL, '2026-02-18 14:09:51', 'Admin'),
@@ -96,6 +96,49 @@ INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `c
 (7, 'BRUDR',                  'Angeles City, Pampanga', 0.5, 'A cafe and hangout spot near HAU.',                             NULL, '2026-03-09 12:47:54', 'images/BRUDR.jpg',    15.1363800, 120.5907000, 'Yes', 'Yes', 'Yes', 'Yes'),
 (8, 'Arte Cafe',              'Angeles City, Pampanga', 1.0, 'An artsy cafe with a relaxed atmosphere for students.',         NULL, '2026-03-09 12:47:54', 'images/ARTE.jpg',     15.1384300, 120.5935200, 'Yes', 'Yes', 'Yes', 'Yes');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `place_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL CHECK (`rating` >= 1 AND `rating` <= 5),
+  `review_text` text NOT NULL,
+  `allow_replies` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review_likes`
+--
+
+CREATE TABLE `review_likes` (
+  `id` int(11) NOT NULL,
+  `review_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review_replies`
+--
+
+CREATE TABLE `review_replies` (
+  `id` int(11) NOT NULL,
+  `review_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `reply_text` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -123,6 +166,30 @@ ALTER TABLE `places`
   ADD KEY `created_by` (`created_by`);
 
 --
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_reviews_place_idx` (`place_id`),
+  ADD KEY `fk_reviews_account_idx` (`account_id`);
+
+--
+-- Indexes for table `review_likes`
+--
+ALTER TABLE `review_likes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_like` (`review_id`,`account_id`),
+  ADD KEY `fk_like_account` (`account_id`);
+
+--
+-- Indexes for table `review_replies`
+--
+ALTER TABLE `review_replies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_reply_review` (`review_id`),
+  ADD KEY `fk_reply_account` (`account_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -145,6 +212,24 @@ ALTER TABLE `places`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review_likes`
+--
+ALTER TABLE `review_likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review_replies`
+--
+ALTER TABLE `review_replies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -161,6 +246,28 @@ ALTER TABLE `favorites`
 ALTER TABLE `places`
   ADD CONSTRAINT `fk_places_account` FOREIGN KEY (`created_by`) REFERENCES `accounts` (`account_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `places_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `accounts` (`account_id`);
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `fk_reviews_account_constraint` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_reviews_place_constraint` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `review_likes`
+--
+ALTER TABLE `review_likes`
+  ADD CONSTRAINT `fk_like_account` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_like_review` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `review_replies`
+--
+ALTER TABLE `review_replies`
+  ADD CONSTRAINT `fk_reply_account` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_reply_review` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

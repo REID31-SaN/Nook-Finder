@@ -1,5 +1,8 @@
 <?php
-session_start();
+// Fix session warning
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once 'config.php';
 
 // Fetch user favorites globally so any card can check if it's favorited
@@ -42,11 +45,8 @@ function renderHeartButton($cafeName, $cafeImage) {
     <title>Nook Finder</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- For map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- End - For map -->
-
     <script>
         function toggleFavAJAX(e, btn) {
             e.preventDefault(); 
