@@ -27,7 +27,20 @@
 
         <div class="sidebar-buttons">
             <a class="sidebar-btn" href="map.php">PIN A PLACE</a>
-            <a class="sidebar-btn" href="map.php">APPLY FILTERS</a>
+            <button class="sidebar-btn" type="button" onclick="toggleFilterBox()">APPLY FILTERS</button>
+            <div id="modal-dimmer" class="modal-dimmer" onclick="toggleFilterBox()"></div>
+            <div id="filter-popout" class="filter-popout">
+                <button type="button" class="close-filter" onclick="toggleFilterBox()">&times;</button>
+                <h2 class="filter-title">FILTERS</h2>
+                <form id="filter-form">
+                    <label class="filter-item"><input type="checkbox" name="amenity" value="wifi"> <span>Wifi</span></label>
+                    <label class="filter-item"><input type="checkbox" name="amenity" value="outlets"> <span>Power Outlets</span></label>
+                    <label class="filter-item"><input type="checkbox" name="amenity" value="aircon"> <span>Aircon</span></label>
+                    <label class="filter-item"><input type="checkbox" name="amenity" value="parking"> <span>Parking</span></label>
+                    <button type="button" class="apply-filter-confirm" onclick="applyFilters()">APPLY</button>
+                    <button type="button" class="clear-filter-confirm" onclick="clearFilters()">CLEAR</button>
+                </form>
+            </div>
             <a class="sidebar-btn" href="favorites.php">FAVOURITES</a>
         </div>
 
@@ -108,6 +121,9 @@
 
 <!-- ================================== TEST MAP ================================== -->
 <script>
+    var allPlaces = []; // To store the raw data from the database
+    var activeMarkers = []; // To store the actual Leaflet marker objects
+
     //Draggable, Scroll to Zoom, Double click to zoom functions on map
     var map = L.map('map', {
     dragging: true,
@@ -141,19 +157,31 @@
     fetch('search_places.php?q=')
     .then(function(response) { return response.json(); })
     .then(function(places) {
-        for (var i = 0; i < places.length; i++) {
-            var place = places[i];
+        allPlaces = places; 
+        displayMarkers(allPlaces); 
+    });
+
+    // Helper Function - This will help clears the map and draws whatever list we have
+    function displayMarkers(placesToDisplay) {
+        // Remove the existing pins from the map
+        activeMarkers.forEach(function(marker) {
+            map.removeLayer(marker);
+        });
+        activeMarkers = []; // Clear the reference array
+
+        // Draw new pins
+        placesToDisplay.forEach(function(place) {
             var lat = parseFloat(place.latitude);
             var lng = parseFloat(place.longitude);
 
-            // Skip places with no coordinates yet
-            if (lat === 0 && lng === 0) continue;
-
-            L.marker([lat, lng]).addTo(map)
-                .bindPopup('<b>' + place.name + '</b><br>' + place.location);
-        }
-    });
-
+            if (lat !== 0 && lng !== 0) {
+                var marker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup('<b>' + place.name + '</b><br>' + place.location);
+                
+                activeMarkers.push(marker); // Keep track of this pin
+            }
+        });
+    }
 
 // When user clicks anywhere on the map
 map.on('click', function(e) {
@@ -276,6 +304,60 @@ map.on('click', function(e) {
     });
 
     // ================================== END OF SEARCH ==================================
+
+    // ================================== FILTER ==================================
+    function toggleFilterBox() {
+        var box = document.getElementById('filter-popout');
+        var dimmer = document.getElementById('modal-dimmer');
+        var isMobile = window.innerWidth < 768;
+        
+        // Check current state
+        var isOpening = (box.style.display === "none" || box.style.display === "");
+        // Script for dimming
+        if (isOpening) {
+            box.style.display = "block";
+            if (isMobile) {
+                dimmer.classList.add('active');
+            }
+        } else {
+            box.style.display = "none";
+            dimmer.classList.remove('active');
+        }
+    }
+
+    function applyFilters() {
+        // Check which of the boxes are ticked
+        var wifi = document.querySelector('input[value="wifi"]').checked;
+        var outlet = document.querySelector('input[value="outlets"]').checked;
+        var aircon = document.querySelector('input[value="aircon"]').checked;
+        var parking = document.querySelector('input[value="parking"]').checked;
+
+        // Filter the list based on our database
+        var filtered = allPlaces.filter(function(place) {
+            return (!wifi || place.wifi == 'Yes') &&
+                   (!outlet || place.outlet == 'Yes') &&
+                   (!aircon || place.aircon == 'Yes') &&
+                   (!parking || place.parking == 'Yes');
+        });
+
+        // Use the helper above to clear map and show only filtered items
+        displayMarkers(filtered);
+    }
+
+    function clearFilters() {
+    // Get the form and reset all checkboxes
+    var form = document.getElementById('filter-form');
+    form.reset();
+
+    // Show all original places back on the map
+    // Since allPlaces holds every record from the initial fetch
+    displayMarkers(allPlaces);
+    
+    console.log("Filters cleared, showing all nooks.");
+}
+
+
+    // ================================== END OF FILTER ==================================
 
 </script>
 <!-- ================================== END OF MAP ================================== -->
