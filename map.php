@@ -153,6 +153,16 @@
     L.marker([15.13324, 120.59063], { icon: redIcon }).addTo(map)
         .bindPopup('<b>Holy Angel University</b><br>Center point');
 
+    // 1.5km coverage radius
+    L.circle([15.13324, 120.59063], {
+        radius: 1500,
+        color: '#062b53',
+        fillColor: 'green',
+        fillOpacity: 0.2,
+        weight: 2.5,
+        dashArray: '6, 6'
+    }).addTo(map);
+
     // Load all places from the database and show them on the map on page load
     fetch('search_places.php?q=')
     .then(function(response) { return response.json(); })
