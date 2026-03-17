@@ -69,4 +69,17 @@
     </div>
 </section>
 
+<?php if (isset($_GET['login']) && $_GET['login'] === 'success' && isset($_SESSION['username'])): ?>
+<div id="welcome-toast">
+    👋 Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>!
+</div>
+<script>
+    const toast = document.getElementById('welcome-toast');
+    if (toast) {
+        setTimeout(() => toast.classList.add('hide'), 3000);
+        setTimeout(() => toast.remove(), 3600);
+    }
+</script>
+<?php endif; ?>
+
 <?php include 'footer.php'; ?>

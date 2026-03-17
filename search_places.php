@@ -4,9 +4,9 @@ include_once 'config.php';
 // Get the search query from the URL
 $query = isset($_GET['q']) ? trim($_GET['q']) : '';
 
-// If query is empty, return all places (used for loading pins on page load)
+// If query is empty, return all approved places (used for loading pins on page load)
 if ($query === '') {
-    $result = $conn->query("SELECT name, location, latitude, longitude, distance_km, wifi, outlet, aircon, parking FROM places");
+    $result = $conn->query("SELECT name, location, latitude, longitude, distance_km, wifi, outlet, aircon, parking, image FROM places WHERE status = 'approved'");
     $places = [];
     while ($row = $result->fetch_assoc()) {
         $places[] = $row;
@@ -16,9 +16,8 @@ if ($query === '') {
     exit;
 }
 
-// Search the places table for any name that contains the query
-// % is a wildcard - so %query% means "anything before or after the word"
-$stmt = $conn->prepare("SELECT name, location, latitude, longitude, distance_km, wifi, outlet, aircon, parking FROM places WHERE name LIKE ?");
+// Search the places table
+$stmt = $conn->prepare("SELECT name, location, latitude, longitude, distance_km, wifi, outlet, aircon, parking, image FROM places WHERE status = 'approved' AND name LIKE ?");
 $search = '%' . $query . '%';
 $stmt->bind_param("s", $search);
 $stmt->execute();

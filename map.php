@@ -44,8 +44,39 @@
             <a class="sidebar-btn" href="favorites.php">FAVOURITES</a>
         </div>
 
-        <a class="sidebar-btn propose-location" href="map.php">PROPOSE<br>LOCATION</a>
+        <a class="sidebar-btn propose-location" onclick="openProposalModal()">PROPOSE<br>LOCATION</a>
 
+    </div>
+
+    <!-- Propose Location Modal -->
+    <div id="propose-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:white; border-radius:12px; padding:30px; width:90%; max-width:480px; position:relative;">
+            <button onclick="closeProposalModal()" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.4rem; cursor:pointer;">&times;</button>
+            <h2 style="margin-bottom:6px;">Propose a Location</h2>
+            <p style="font-size:0.85rem; color:#888; margin-bottom:20px;">Place a pin on the map, then fill in the details below.</p>
+
+            <div id="pin-status" style="background:#f0f4ff; border:1px solid #c0cdff; border-radius:6px; padding:10px 14px; font-size:0.85rem; margin-bottom:16px; color:#3a5bd9;">
+                📍 No pin placed yet — <button onclick="activatePinMode()" style="background:#062b53; color:white; border:none; padding:4px 10px; border-radius:6px; cursor:pointer; font-size:0.85rem;">Click here to place pin</button>
+            </div>
+
+            <input type="hidden" id="propose-lat">
+            <input type="hidden" id="propose-lng">
+
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <input type="text" id="propose-name" placeholder="Place Name *" style="padding:10px 14px; border:1px solid #ccc; border-radius:8px; font-size:0.95rem;">
+                <input type="text" id="propose-location" placeholder="Address / Area *" style="padding:10px 14px; border:1px solid #ccc; border-radius:8px; font-size:0.95rem;">
+                <textarea id="propose-description" placeholder="Description *" rows="3" style="padding:10px 14px; border:1px solid #ccc; border-radius:8px; font-size:0.95rem; resize:vertical;"></textarea>
+
+                <div style="display:flex; gap:16px; flex-wrap:wrap;">
+                    <label><input type="checkbox" id="p-wifi"> Wifi</label>
+                    <label><input type="checkbox" id="p-outlet"> Power Outlets</label>
+                    <label><input type="checkbox" id="p-aircon"> Aircon</label>
+                    <label><input type="checkbox" id="p-parking"> Parking</label>
+                </div>
+
+                <button onclick="submitProposal()" style="background:#062b53; color:white; border:none; padding:12px; border-radius:8px; font-size:1rem; cursor:pointer; font-weight:600;">SUBMIT PROPOSAL</button>
+            </div>
+        </div>
     </div>
 </main>
 
@@ -119,28 +150,22 @@
 
 <?php include 'footer.php'; ?>
 
-<!-- ================================== TEST MAP ================================== -->
+<!-- ================================== MAP ================================== -->
 <script>
-    var allPlaces = []; // To store the raw data from the database
-    var activeMarkers = []; // To store the actual Leaflet marker objects
+    var allPlaces = [];
+    var activeMarkers = [];
 
-    //Draggable, Scroll to Zoom, Double click to zoom functions on map
     var map = L.map('map', {
-    dragging: true,
-    scrollWheelZoom: true,
-    doubleClickZoom: true
-
-    // Map centered near HAU
+        dragging: true,
+        scrollWheelZoom: true,
+        doubleClickZoom: true
     }).setView([15.133270, 120.591433], 15);
 
-    // Load OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Red marker icon for HAU center point
     var redIcon = new L.Icon({
-        // Borrowed from: https://github.com/pointhi/leaflet-color-markers by Pointhi (Thomas Pointhuber)
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
         shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
         iconSize: [30, 46],
@@ -149,11 +174,9 @@
         shadowSize: [41, 41]
     });
 
-    // Drop the red HAU marker at the center
     L.marker([15.13324, 120.59063], { icon: redIcon }).addTo(map)
         .bindPopup('<b>Holy Angel University</b><br>Center point');
 
-    // 1.5km coverage radius
     L.circle([15.13324, 120.59063], {
         radius: 1500,
         color: '#062b53',
@@ -163,120 +186,77 @@
         dashArray: '6, 6'
     }).addTo(map);
 
-    // Load all places from the database and show them on the map on page load
     fetch('search_places.php?q=')
     .then(function(response) { return response.json(); })
     .then(function(places) {
-        allPlaces = places; 
-        displayMarkers(allPlaces); 
+        allPlaces = places;
+        displayMarkers(allPlaces);
     });
 
-    // Helper Function - This will help clears the map and draws whatever list we have
     function displayMarkers(placesToDisplay) {
-        // Remove the existing pins from the map
-        activeMarkers.forEach(function(marker) {
-            map.removeLayer(marker);
-        });
-        activeMarkers = []; // Clear the reference array
-
-        // Draw new pins
+        activeMarkers.forEach(function(marker) { map.removeLayer(marker); });
+        activeMarkers = [];
         placesToDisplay.forEach(function(place) {
             var lat = parseFloat(place.latitude);
             var lng = parseFloat(place.longitude);
-
             if (lat !== 0 && lng !== 0) {
                 var marker = L.marker([lat, lng]).addTo(map)
-                    .bindPopup('<b>' + place.name + '</b><br>' + place.location);
-                
-                activeMarkers.push(marker); // Keep track of this pin
+                    .bindTooltip('<b>' + place.name + '</b><br>' + place.location, {
+                        direction: 'top',
+                        offset: [0, -10]
+                    });
+
+                marker.on('click', function() {
+                    window.location.href = 'cafe_window.php?cafe=' + encodeURIComponent(place.name) + '&img=' + encodeURIComponent(place.image);
+                });
+
+                activeMarkers.push(marker);
             }
         });
     }
 
-// When user clicks anywhere on the map
-map.on('click', function(e) {
-
-    // e.latlng contains the coordinates of where the user clicked
-    var clickedLat = e.latlng.lat;
-    var clickedLng = e.latlng.lng;
-
-    // Create a new marker at the clicked location
-    var newMarker = L.marker([clickedLat, clickedLng], {
-        draggable: true   // Allows user to drag the marker
-    }).addTo(map);
-
-    // Add popup to the new marker
-    newMarker.bindPopup(
-        "<b>New Pin</b><br>" +
-        "Latitude: " + clickedLat.toFixed(5) + "<br>" +
-        "Longitude: " + clickedLng.toFixed(5) + "<br><br>" +
-        "You can drag this pin!"
-    ).openPopup();
-
-});
-
     // ================================== SEARCH ==================================
-
-    // Keeps track of search result markers so we can remove them on the next search
     var searchMarkers = [];
 
     function searchPlace() {
         var query = document.getElementById('search-box').value.trim();
-
-        // Stop if search box is empty
         if (query === '') return;
 
-        // Remove markers from the previous search
-        for (var i = 0; i < searchMarkers.length; i++) {
-            map.removeLayer(searchMarkers[i]);
-        }
+        for (var i = 0; i < searchMarkers.length; i++) { map.removeLayer(searchMarkers[i]); }
         searchMarkers = [];
 
-        // Send the query to search_places.php which searches the database
         fetch('search_places.php?q=' + encodeURIComponent(query))
-        .then(function(response) {
-            return response.json();
-        })
+        .then(function(response) { return response.json(); })
         .then(function(results) {
-
             var suggestionsBox = document.getElementById('suggestions-box');
             suggestionsBox.innerHTML = '';
 
-            // If nothing was found, show a message in the dropdown
             if (results.length === 0) {
                 suggestionsBox.innerHTML = '<div style="padding: 12px; color: #888;">No places found.</div>';
                 suggestionsBox.style.display = 'block';
                 return;
             }
 
-            // Loop through each result from the database
             for (var i = 0; i < results.length; i++) {
                 var place = results[i];
                 var lat = parseFloat(place.latitude);
                 var lng = parseFloat(place.longitude);
 
-                // Drop a marker on the map for this place
                 var marker = L.marker([lat, lng]).addTo(map);
                 marker.bindPopup('<b>' + place.name + '</b><br>' + place.location);
                 searchMarkers.push(marker);
 
-                // Add a circle around the search result to make it stand out
                 var pulse = L.circle([lat, lng], {
-                    color: '#e74c3c',
-                    fillColor: '#e74c3c',
-                    fillOpacity: 0.15,
-                    radius: 80
+                    color: '#e74c3c', fillColor: '#e74c3c', fillOpacity: 0.15, radius: 80
                 }).addTo(map);
                 searchMarkers.push(pulse);
 
-                // Add this place as a row in the suggestions dropdown
                 var row = document.createElement('div');
                 row.style.padding = '10px 14px';
                 row.style.cursor = 'pointer';
                 row.style.borderBottom = '1px solid #f0f0f0';
                 row.innerHTML = '<b>' + place.name + '</b><br><small>' + place.location + '</small>';
 
-                // When user clicks a suggestion, pan to that marker and open its popup
                 row.onclick = (function(m, lt, ln) {
                     return function() {
                         map.setView([lt, ln], 17);
@@ -287,11 +267,9 @@ map.on('click', function(e) {
 
                 row.onmouseenter = function() { this.style.background = '#f5f5f5'; };
                 row.onmouseleave = function() { this.style.background = 'white'; };
-
                 suggestionsBox.appendChild(row);
             }
 
-            // If only one result, zoom straight to it
             if (results.length === 1) {
                 map.setView([parseFloat(results[0].latitude), parseFloat(results[0].longitude)], 17);
                 searchMarkers[0].openPopup();
@@ -299,12 +277,9 @@ map.on('click', function(e) {
 
             suggestionsBox.style.display = 'block';
         })
-        .catch(function() {
-            alert('Search failed. Check your connection.');
-        });
+        .catch(function() { alert('Search failed. Check your connection.'); });
     }
 
-    // Close the suggestions dropdown when clicking anywhere else on the page
     document.addEventListener('click', function(e) {
         var box = document.getElementById('suggestions-box');
         var input = document.getElementById('search-box');
@@ -312,7 +287,6 @@ map.on('click', function(e) {
             box.style.display = 'none';
         }
     });
-
     // ================================== END OF SEARCH ==================================
 
     // ================================== FILTER ==================================
@@ -320,15 +294,11 @@ map.on('click', function(e) {
         var box = document.getElementById('filter-popout');
         var dimmer = document.getElementById('modal-dimmer');
         var isMobile = window.innerWidth < 768;
-        
-        // Check current state
         var isOpening = (box.style.display === "none" || box.style.display === "");
-        // Script for dimming
+
         if (isOpening) {
             box.style.display = "block";
-            if (isMobile) {
-                dimmer.classList.add('active');
-            }
+            if (isMobile) dimmer.classList.add('active');
         } else {
             box.style.display = "none";
             dimmer.classList.remove('active');
@@ -336,13 +306,11 @@ map.on('click', function(e) {
     }
 
     function applyFilters() {
-        // Check which of the boxes are ticked
         var wifi = document.querySelector('input[value="wifi"]').checked;
         var outlet = document.querySelector('input[value="outlets"]').checked;
         var aircon = document.querySelector('input[value="aircon"]').checked;
         var parking = document.querySelector('input[value="parking"]').checked;
 
-        // Filter the list based on our database
         var filtered = allPlaces.filter(function(place) {
             return (!wifi || place.wifi == 'Yes') &&
                    (!outlet || place.outlet == 'Yes') &&
@@ -350,24 +318,151 @@ map.on('click', function(e) {
                    (!parking || place.parking == 'Yes');
         });
 
-        // Use the helper above to clear map and show only filtered items
         displayMarkers(filtered);
     }
 
     function clearFilters() {
-    // Get the form and reset all checkboxes
-    var form = document.getElementById('filter-form');
-    form.reset();
-
-    // Show all original places back on the map
-    // Since allPlaces holds every record from the initial fetch
-    displayMarkers(allPlaces);
-    
-    console.log("Filters cleared, showing all nooks.");
-}
-
-
+        document.getElementById('filter-form').reset();
+        displayMarkers(allPlaces);
+        console.log("Filters cleared, showing all nooks.");
+    }
     // ================================== END OF FILTER ==================================
+
+    // ================================== PROPOSAL ==================================
+    var proposalMarker = null;
+    var proposalMode = false;
+
+    function openProposalModal() {
+        <?php if (!isset($_SESSION['user_id'])): ?>
+            alert('You need to be logged in to propose a location.');
+            window.location.href = 'login.php';
+            return;
+        <?php endif; ?>
+
+        document.getElementById('propose-modal').style.display = 'flex';
+    }
+
+    function closeProposalModal() {
+        proposalMode = false;
+        document.getElementById('propose-modal').style.display = 'none';
+
+        if (proposalMarker) {
+            map.removeLayer(proposalMarker);
+            proposalMarker = null;
+        }
+
+        // Remove banner if still showing
+        var banner = document.getElementById('pin-banner');
+        if (banner) banner.remove();
+
+        // Reset form
+        document.getElementById('propose-lat').value = '';
+        document.getElementById('propose-lng').value = '';
+        document.getElementById('propose-name').value = '';
+        document.getElementById('propose-location').value = '';
+        document.getElementById('propose-description').value = '';
+
+        // Reset pin status back to button
+        var pinStatus = document.getElementById('pin-status');
+        pinStatus.innerHTML = '📍 No pin placed yet — <button onclick="activatePinMode()" style="background:#062b53; color:white; border:none; padding:4px 10px; border-radius:6px; cursor:pointer; font-size:0.85rem;">Click here to place pin</button>';
+        pinStatus.style.background = '#f0f4ff';
+        pinStatus.style.borderColor = '#c0cdff';
+        pinStatus.style.color = '#3a5bd9';
+    }
+
+    function activatePinMode() {
+        // Hide modal so user can click the map
+        document.getElementById('propose-modal').style.display = 'none';
+        proposalMode = true;
+
+        // Show floating instruction banner
+        var banner = document.createElement('div');
+        banner.id = 'pin-banner';
+        banner.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#062b53; color:white; padding:10px 20px; border-radius:8px; z-index:9999; font-size:0.9rem;';
+        banner.innerHTML = '📍 Click anywhere on the map to place your pin';
+        document.body.appendChild(banner);
+    }
+
+    map.on('click', function(e) {
+        var clickedLat = e.latlng.lat;
+        var clickedLng = e.latlng.lng;
+
+        if (proposalMode) {
+            if (proposalMarker) map.removeLayer(proposalMarker);
+
+            proposalMarker = L.marker([clickedLat, clickedLng], { draggable: true }).addTo(map);
+            proposalMarker.bindPopup('📍 Proposed location').openPopup();
+
+            document.getElementById('propose-lat').value = clickedLat.toFixed(7);
+            document.getElementById('propose-lng').value = clickedLng.toFixed(7);
+
+            // Remove the banner
+            var banner = document.getElementById('pin-banner');
+            if (banner) banner.remove();
+
+            // Reopen the modal
+            document.getElementById('propose-modal').style.display = 'flex';
+
+            // Update status text
+            var pinStatus = document.getElementById('pin-status');
+            pinStatus.innerHTML = '✅ Pin placed at (' + clickedLat.toFixed(5) + ', ' + clickedLng.toFixed(5) + ') — you can drag it to adjust.';
+            pinStatus.style.background = '#f0fff4';
+            pinStatus.style.borderColor = '#a0ddb0';
+            pinStatus.style.color = '#2d7a4f';
+
+            proposalMarker.on('dragend', function() {
+                var pos = proposalMarker.getLatLng();
+                document.getElementById('propose-lat').value = pos.lat.toFixed(7);
+                document.getElementById('propose-lng').value = pos.lng.toFixed(7);
+                document.getElementById('pin-status').innerHTML =
+                    '✅ Pin moved to (' + pos.lat.toFixed(5) + ', ' + pos.lng.toFixed(5) + ')';
+            });
+
+            return;
+        }
+    });
+
+    function submitProposal() {
+        var lat = document.getElementById('propose-lat').value;
+        var lng = document.getElementById('propose-lng').value;
+        var name = document.getElementById('propose-name').value.trim();
+        var location = document.getElementById('propose-location').value.trim();
+        var description = document.getElementById('propose-description').value.trim();
+
+        if (!lat || !lng) { alert('Please place a pin on the map first.'); return; }
+        if (!name) { alert('Please enter a place name.'); return; }
+        if (!location) { alert('Please enter an address or area.'); return; }
+        if (!description) { alert('Please enter a description.'); return; }
+
+        var formData = new FormData();
+        formData.append('name', name);
+        formData.append('location', location);
+        formData.append('description', description);
+        formData.append('latitude', lat);
+        formData.append('longitude', lng);
+        formData.append('wifi', document.getElementById('p-wifi').checked ? 'Yes' : 'No');
+        formData.append('outlet', document.getElementById('p-outlet').checked ? 'Yes' : 'No');
+        formData.append('aircon', document.getElementById('p-aircon').checked ? 'Yes' : 'No');
+        formData.append('parking', document.getElementById('p-parking').checked ? 'Yes' : 'No');
+
+        fetch('propose_location.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                alert('✅ Your proposal has been submitted! It will appear on the map once approved by an admin.');
+                closeProposalModal();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(function() {
+            alert('Submission failed. Please check your connection.');
+        });
+    }
+    // ================================== END OF PROPOSAL ==================================
 
 </script>
 <!-- ================================== END OF MAP ================================== -->

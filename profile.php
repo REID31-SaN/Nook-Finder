@@ -12,6 +12,7 @@ $stmt = $conn->prepare("SELECT username, profile_pic FROM accounts WHERE account
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $user_data = $stmt->get_result()->fetch_assoc();
+$_SESSION['profile_pic'] = $user_data['profile_pic'];
 
 $display_img = (!empty($user_data['profile_pic']) && file_exists($user_data['profile_pic'])) ? $user_data['profile_pic'] : 'images/default-user.jpg';
 ?>
