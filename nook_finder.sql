@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2026 at 09:00 AM
+-- Generation Time: Mar 19, 2026 at 03:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `accounts` (
 INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `created_at`, `Type`) VALUES
 (1, 'tester', 'test', NULL, '2026-02-18 09:36:13', 'Admin'),
 (2, 'Almariego', 'james', 'uploads/1773415783_cec8f5c5-38e6-43ed-a999-e65ce6eb3cf6.jpg', '2026-02-18 14:09:51', 'Admin'),
-(3, 'Incognito', 'rich', 'uploads/1773058865_jarbihs.png', '2026-02-18 14:10:55', 'Admin'),
+(3, 'Incognito', 'rich', 'uploads/1773930976_baby jake.jpg', '2026-02-18 14:10:55', 'Admin'),
 (4, 'Montoya', 'dohn', NULL, '2026-02-18 14:11:25', 'Admin'),
 (5, 'Santos', 'jeorge', 'uploads/1773901768_oSE91LrU.jpg', '2026-02-18 14:11:51', 'Admin'),
 (7, 'Tourist', 'password', NULL, '2026-03-17 07:57:39', 'User');
@@ -102,7 +102,7 @@ CREATE TABLE `places` (
 
 INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `created_by`, `created_at`, `image`, `latitude`, `longitude`, `wifi`, `outlet`, `aircon`, `parking`, `status`, `proposed_by`, `reviewed_by`, `reviewed_at`, `rejection_reason`) VALUES
 (1, 'Kuwento Cafe', 'Angeles City, Pampanga', 1.3, 'A cozy cafe near HAU perfect for studying and relaxing.', NULL, '2026-03-09 12:47:54', 'images/kwento.jpg', 15.1344100, 120.5971200, 'Yes', 'Yes', 'Yes', 'No', 'approved', NULL, NULL, NULL, NULL),
-(2, 'Cush Lounge', 'Angeles City, Pampanga', 1.4, 'A comfortable lounge space for students to unwind and work.', NULL, '2026-03-09 12:47:54', 'images/Cush.jpg', 15.1521700, 120.5925400, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
+(2, 'Cush Lounge', 'Angeles City, Pampanga', 1.4, 'A comfortable lounge space for students to unwind and work.', NULL, '2026-03-09 12:47:54', 'images/Cush.jpg', 15.1424783, 120.5970223, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
 (3, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.6, 'A coworking space ideal for collaborative work and meetings.', NULL, '2026-03-09 12:47:54', 'images/Vessel.jpg', 15.1368900, 120.5918900, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
 (4, 'Co.Create', 'Angeles City, Pampanga', 0.3, 'A creative shared workspace close to HAU.', NULL, '2026-03-09 12:47:54', 'images/CoCreate.PNG', 15.1332700, 120.5918200, 'Yes', 'Yes', 'Yes', 'No', 'approved', NULL, NULL, NULL, NULL),
 (5, 'oFTr', 'Angeles City, Pampanga', 0.3, 'A student-friendly nook near the university.', NULL, '2026-03-09 12:47:54', 'images/OFTR.jpg', 15.1343900, 120.5914300, 'Yes', 'Yes', 'Yes', 'No', 'approved', NULL, NULL, NULL, NULL),
