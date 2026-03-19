@@ -123,6 +123,7 @@ if ($userType !== 'Admin') {
                     <th>Reviewed By</th>
                     <th>Reviewed At</th>
                     <th>Accepted/Rejection Reason</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -141,6 +142,9 @@ if ($userType !== 'Admin') {
                     <td><?= $row['username'] ? htmlspecialchars($row['username']) : '<i style="color:#aaa;">—</i>' ?></td>
                     <td><?= $row['reviewed_at'] ? date('M d, Y', strtotime($row['reviewed_at'])) : '—' ?></td>
                     <td><?= $row['rejection_reason'] ? htmlspecialchars($row['rejection_reason']) : '—' ?></td>
+                    <td>
+                        <button class="action-btn btn-reject" onclick="deletePlace(<?= $row['id'] ?>)">Delete</button>
+                    </td>
                 </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -202,4 +206,25 @@ function reviewPlace(id, status, reason) {
         }
     });
 }
+
+function deletePlace(id) {
+    if (!confirm('Are you sure you want to permanently delete this location?')) return;
+
+    fetch('delete_place.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'id=' + id
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            alert('🗑️ Location deleted.');
+            location.reload();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    });
+}
+
+
 </script>
