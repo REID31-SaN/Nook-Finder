@@ -5,7 +5,7 @@ include 'config.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $stmt = $conn->prepare("SELECT account_id, username, Type, profile_pic FROM accounts WHERE username = ? AND password = ?");
+    $stmt = $conn->prepare("SELECT account_id, username, Type, profile_pic FROM accounts WHERE username = ? AND BINARY password = ?");
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
     $result = $stmt->get_result();
