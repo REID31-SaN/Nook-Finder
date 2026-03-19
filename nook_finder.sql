@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2026 at 04:38 PM
+-- Generation Time: Mar 19, 2026 at 09:00 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,7 @@ INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `cr
 (2, 'Almariego', 'james', 'uploads/1773415783_cec8f5c5-38e6-43ed-a999-e65ce6eb3cf6.jpg', '2026-02-18 14:09:51', 'Admin'),
 (3, 'Incognito', 'rich', 'uploads/1773058865_jarbihs.png', '2026-02-18 14:10:55', 'Admin'),
 (4, 'Montoya', 'dohn', NULL, '2026-02-18 14:11:25', 'Admin'),
-(5, 'Santos', 'jeorge', NULL, '2026-02-18 14:11:51', 'Admin'),
+(5, 'Santos', 'jeorge', 'uploads/1773901768_oSE91LrU.jpg', '2026-02-18 14:11:51', 'Admin'),
 (7, 'Tourist', 'password', NULL, '2026-03-17 07:57:39', 'User');
 
 -- --------------------------------------------------------
@@ -109,7 +109,8 @@ INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `c
 (6, 'Angeles City Library', 'Angeles City, Pampanga', 0.8, 'A public library offering a quiet space for focused study.', NULL, '2026-03-09 12:47:54', 'images/ACLib.jpg', 15.1352800, 120.5908100, 'No', 'No', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
 (7, 'BRUDR', 'Angeles City, Pampanga', 0.5, 'A cafe and hangout spot near HAU.', NULL, '2026-03-09 12:47:54', 'images/BRUDR.jpg', 15.1363800, 120.5907000, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
 (8, 'Arte Cafe', 'Angeles City, Pampanga', 1.0, 'An artsy cafe with a relaxed atmosphere for students.', NULL, '2026-03-09 12:47:54', 'images/ARTE.jpg', 15.1384300, 120.5935200, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
-(20, 'HAU Library', 'Inside HAU', 0.0, 'Library for Students', NULL, '2026-03-17 15:32:29', NULL, 15.1334652, 120.5909854, 'Yes', 'Yes', 'Yes', '', 'pending', 3, NULL, NULL, NULL);
+(20, 'HAU Library', 'Inside HAU', 0.0, 'Library for Students', NULL, '2026-03-17 15:32:29', NULL, 15.1334652, 120.5909854, 'Yes', 'Yes', 'Yes', '', 'pending', 3, NULL, NULL, NULL),
+(21, 'Mixue', 'Bart Mall', 0.0, 'Ice cream shop', NULL, '2026-03-19 07:18:37', NULL, 15.1338691, 120.5917042, 'No', 'Yes', 'Yes', '', 'pending', 5, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -153,6 +154,30 @@ CREATE TABLE `review_replies` (
   `reply_text` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_pins`
+--
+
+CREATE TABLE `user_pins` (
+  `id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `note` text DEFAULT NULL,
+  `latitude` decimal(10,7) NOT NULL,
+  `longitude` decimal(10,7) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_pins`
+--
+
+INSERT INTO `user_pins` (`id`, `account_id`, `name`, `note`, `latitude`, `longitude`, `created_at`) VALUES
+(2, 5, 'Mixue', 'ice cream shop', 15.1350497, 120.5904812, '2026-03-19 07:49:25'),
+(5, 5, 'Lilim', 'Cafe', 15.1354070, 120.5890596, '2026-03-19 07:57:50');
 
 --
 -- Indexes for dumped tables
@@ -205,6 +230,13 @@ ALTER TABLE `review_replies`
   ADD KEY `fk_reply_account` (`account_id`);
 
 --
+-- Indexes for table `user_pins`
+--
+ALTER TABLE `user_pins`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account_id` (`account_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -212,7 +244,7 @@ ALTER TABLE `review_replies`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `favorites`
@@ -224,7 +256,7 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT for table `places`
 --
 ALTER TABLE `places`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -243,6 +275,12 @@ ALTER TABLE `review_likes`
 --
 ALTER TABLE `review_replies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `user_pins`
+--
+ALTER TABLE `user_pins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -282,6 +320,12 @@ ALTER TABLE `review_likes`
 ALTER TABLE `review_replies`
   ADD CONSTRAINT `fk_reply_account` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_reply_review` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_pins`
+--
+ALTER TABLE `user_pins`
+  ADD CONSTRAINT `user_pins_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
