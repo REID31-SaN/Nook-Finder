@@ -65,8 +65,15 @@ $display_img = (!empty($user_data['profile_pic']) && file_exists($user_data['pro
         <h2 style="text-align: center; margin-top: 50px;">Recent Favorites</h2>
         
         <?php
-        // Fetch up to 4 recent favorites for preview
-        $fav_stmt = $conn->prepare("SELECT p.name, p.image FROM favorites f JOIN places p ON f.place_id = p.id WHERE f.account_id = ? ORDER BY f.created_at DESC LIMIT 4");
+        // Fetch up to 4 recent favorites with place details
+        $fav_stmt = $conn->prepare("
+            SELECT p.id, p.name, p.image 
+            FROM favorites f 
+            JOIN places p ON f.place_id = p.id 
+            WHERE f.account_id = ? 
+            ORDER BY f.created_at DESC 
+            LIMIT 4
+        ");
         $fav_stmt->bind_param("i", $user_id);
         $fav_stmt->execute();
         $fav_res = $fav_stmt->get_result();
@@ -74,10 +81,23 @@ $display_img = (!empty($user_data['profile_pic']) && file_exists($user_data['pro
 
         <div class="discover-cards" style="margin-top: 20px;">
             <?php if($fav_res->num_rows > 0): ?>
-                <?php while($fav = $fav_res->fetch_assoc()): ?>
+                <?php while($fav = $fav_res->fetch_assoc()):
+                    // Use place_id link so proposed/new places without hardcoded data resolve correctly
+                    $card_link = 'cafe_window.php?place_id=' . intval($fav['id']) . '&cafe=' . urlencode($fav['name']);
+                    // Fallback image for places that have no photo yet
+                    $card_img  = (!empty($fav['image']) && file_exists($fav['image'])) ? htmlspecialchars($fav['image']) : null;
+                ?>
                     <div class="place-card">
-                        <a href="cafe_window.php?cafe=<?= urlencode($fav['name']) ?>&img=<?= urlencode($fav['image']) ?>" style="text-decoration: none; color: inherit; display: block; height: 100%;">
-                            <img src="<?= htmlspecialchars($fav['image']) ?>" alt="<?= htmlspecialchars($fav['name']) ?>" style="height: 200px; object-fit:cover; width:100%;">
+                        <a href="<?= $card_link ?>" style="text-decoration: none; color: inherit; display: block; height: 100%;">
+                            <?php if ($card_img): ?>
+                                <img src="<?= $card_img ?>" alt="<?= htmlspecialchars($fav['name']) ?>" style="height: 200px; object-fit:cover; width:100%;">
+                            <?php else: ?>
+                                <!-- Placeholder for places without an uploaded image -->
+                                <div style="height:200px; width:100%; background: linear-gradient(135deg,#522e15,#6D3E1C,#8B5A2B); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; border-radius:10px 10px 0 0;">
+                                    <span style="font-size:2.2rem; opacity:0.45;">🏙️</span>
+                                    <span style="font-size:0.78rem; color:rgba(255,243,219,0.5); font-weight:600; letter-spacing:0.04em;">No image yet</span>
+                                </div>
+                            <?php endif; ?>
                             <div class="place-name">
                                 <span><?= htmlspecialchars($fav['name']) ?></span>
                             </div>
@@ -85,7 +105,9 @@ $display_img = (!empty($user_data['profile_pic']) && file_exists($user_data['pro
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p style="text-align: center; width: 100%; color: #888; grid-column: 1 / -1;">Visit the <a href="discover.php" style="color: #6D3E1C;">Discover</a> page to add favorites!</p>
+                <p style="text-align: center; width: 100%; color: #888; grid-column: 1 / -1;">
+                    Visit the <a href="discover.php" style="color: #6D3E1C;">Discover</a> page to add favorites!
+                </p>
             <?php endif; ?>
         </div>
 

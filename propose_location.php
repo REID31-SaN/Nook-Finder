@@ -31,7 +31,7 @@ $stmt = $conn->prepare("
     INSERT INTO places (name, location, description, latitude, longitude, wifi, outlet, aircon, parking, status, proposed_by, created_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, NOW())
 ");
-$stmt->bind_param("sssddssssi", $name, $location, $description, $latitude, $longitude, $wifi, $outlet, $aircon, $parking, $proposed_by);
+$stmt->bind_param("sssddsssis", $name, $location, $description, $latitude, $longitude, $wifi, $outlet, $aircon, $parking, $proposed_by);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true]);

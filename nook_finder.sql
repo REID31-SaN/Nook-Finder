@@ -328,6 +328,13 @@ ALTER TABLE `user_pins`
   ADD CONSTRAINT `user_pins_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE;
 COMMIT;
 
+-- Migration: Add cafe window fields to places table
+-- Run this once in phpMyAdmin or via MySQL CLI
+
+ALTER TABLE `places`
+    ADD COLUMN `hours_weekday` VARCHAR(100) DEFAULT NULL COMMENT 'e.g. 8 AM – 10 PM (Mon–Sat)' AFTER `parking`,
+    ADD COLUMN `hours_weekend` VARCHAR(100) DEFAULT NULL COMMENT 'e.g. 10 AM – 8 PM (Sunday)' AFTER `hours_weekday`;
+    
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

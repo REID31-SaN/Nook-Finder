@@ -1,28 +1,62 @@
 <?php
-session_start();
+// ═══════════════════════════════════════════════════════
+//  review_place.php  —  AJAX: admin approve/reject
+// ═══════════════════════════════════════════════════════
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 header('Content-Type: application/json');
 include 'config.php';
 
-if (!isset($_SESSION['user_id'])) { echo json_encode(['success' => false, 'message' => 'Unauthorized']); exit; }
+// Guard: must be logged-in admin
+if (empty($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'message' => 'Not logged in.']);
+    exit;
+}
 
-// Verify admin
+$uid  = (int) $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT Type FROM accounts WHERE account_id = ?");
-$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->bind_param("i", $uid);
 $stmt->execute();
-$stmt->bind_result($userType);
+$stmt->bind_result($type);
 $stmt->fetch();
 $stmt->close();
 
-if ($userType !== 'Admin') { echo json_encode(['success' => false, 'message' => 'Unauthorized']); exit; }
+if ($type !== 'Admin') {
+    echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+    exit;
+}
 
-$id     = intval($_POST['id']);
-$status = $_POST['status'] === 'approved' ? 'approved' : 'rejected';
-$reason = trim($_POST['reason'] ?? '');
-$admin  = $_SESSION['user_id'];
+// Validate input
+$id     = (int)  ($_POST['id']     ?? 0);
+$status = trim(   $_POST['status'] ?? '');
+$reason = trim(   $_POST['reason'] ?? '');
 
-$stmt = $conn->prepare("UPDATE places SET status = ?, reviewed_by = ?, reviewed_at = NOW(), rejection_reason = ? WHERE id = ?");
-$stmt->bind_param("sisi", $status, $admin, $reason, $id);
+if (!$id || !in_array($status, ['approved', 'rejected'])) {
+    echo json_encode(['success' => false, 'message' => 'Invalid input.']);
+    exit;
+}
 
-echo $stmt->execute() ? json_encode(['success' => true]) : json_encode(['success' => false, 'message' => 'DB error']);
+$reviewed_at = date('Y-m-d H:i:s');
+
+if ($status === 'approved') {
+    $stmt = $conn->prepare("
+        UPDATE places
+        SET status = 'approved', reviewed_by = ?, reviewed_at = ?, rejection_reason = NULL
+        WHERE id = ?
+    ");
+    $stmt->bind_param("isi", $uid, $reviewed_at, $id);
+} else {
+    $stmt = $conn->prepare("
+        UPDATE places
+        SET status = 'rejected', reviewed_by = ?, reviewed_at = ?, rejection_reason = ?
+        WHERE id = ?
+    ");
+    $stmt->bind_param("issi", $uid, $reviewed_at, $reason, $id);
+}
+
+if ($stmt->execute()) {
+    echo json_encode(['success' => true]);
+} else {
+    echo json_encode(['success' => false, 'message' => 'Database error.']);
+}
 $stmt->close();
-?>
