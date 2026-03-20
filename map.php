@@ -146,12 +146,23 @@
 <script>
     var allPlaces = [];
     var activeMarkers = [];
+    
+    // Define the bounds around HAU 
+    // Bounds (Zoom out): Dau, Baliti, Porac, Pulung Cacutud
+    // (Default Center - HAU)
+    var maxBounds = L.latLngBounds(
+        [15.1033, 120.5614], // southwest - Mega Dike (Near Bayung Porac Park)
+        [15.1657, 120.6178]  // northeast - Pulung Cacutud (near Punta Verde Subdivision)
+    );
 
     var map = L.map('map', {
         dragging: true,
         scrollWheelZoom: true,
-        doubleClickZoom: true
-    }).setView([15.133270, 120.591433], 15);
+        doubleClickZoom: true,
+        maxBounds: maxBounds,        // locks panning to the area
+        maxBoundsViscosity: 1.0,     // visual effect, user cannot drag outside map, it bounces back immediately
+        minZoom: 14                  // prevents zooming out too far and seeing outside the area
+    }).setView([15.133270, 120.591433], 15); //Center-HAU, Zoom level - 15(Street View)
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
