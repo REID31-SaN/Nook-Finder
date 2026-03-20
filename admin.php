@@ -243,5 +243,3 @@ function reviewPlace(id, status, reason) {
     });
 }
 </script>
-
-<?php include 'footer.php'; ?>
