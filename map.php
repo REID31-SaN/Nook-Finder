@@ -1,5 +1,9 @@
 <?php include_once 'header.php'; ?>
 
+<style>
+    body { background-color: #6D3E1C; }
+</style>
+
 <main class="map-wrapper">
     <div id="map"></div>
 
@@ -55,12 +59,10 @@
             <h2 style="margin-bottom:6px;">Pin a Place</h2>
             <p style="font-size:0.85rem; color:#888; margin-bottom:20px;">Save a private spot only you can see.</p>
 
-            <!-- Shows the pin status - changes once user clicks the map -->
             <div id="pin-place-status" style="background:#f0f4ff; border:1px solid #c0cdff; border-radius:6px; padding:10px 14px; font-size:0.85rem; margin-bottom:16px; color:#3a5bd9;">
                 📍 No pin placed yet — <button onclick="startPinPlacement()" style="background:#6D3E1C; color:white; border:none; padding:4px 10px; border-radius:6px; cursor:pointer; font-size:0.85rem;">Click here to place pin</button>
             </div>
 
-            <!-- Hidden fields to store the clicked coordinates -->
             <input type="hidden" id="pin-lat">
             <input type="hidden" id="pin-lng">
 
@@ -106,37 +108,6 @@
     </div>
 </main>
 
-<!-- ===== DISCOVER SECTION - dynamically loaded from DB (Doc 2 improvement) ===== -->
-<section class="discover" style="margin-top: 20px; padding-top: 20px; min-height: 80vh;">
-    <div class="top-text" style="width: 100%; text-align: center; margin-bottom: 40px;">
-        <h2>Locations available near HAU</h2>
-        <p>Explore the best student-friendly nooks, cafes, and study hubs near Holy Angel University.</p>
-    </div>
-
-    <div class="discover-cards">
-        <?php
-        include_once 'config.php';
-        $res = $conn->query("SELECT id, name, image, distance_km FROM places WHERE status = 'approved' ORDER BY distance_km ASC LIMIT 4");
-        while ($p = $res->fetch_assoc()):
-            $pid      = (int) $p['id'];
-            $link     = 'cafe_window.php?place_id=' . $pid . '&cafe=' . urlencode($p['name']);
-            $dist     = (float) $p['distance_km'];
-            $distLabel = $dist > 0 ? number_format($dist, 2) . ' km away' : 'Nearby';
-        ?>
-            <div class="place-card">
-                <a href="<?= $link ?>" style="text-decoration: none; color: inherit; display: block;">
-                    <img src="<?= htmlspecialchars($p['image'] ?? '') ?>" alt="<?= htmlspecialchars($p['name']) ?>">
-                    <div class="place-name">
-                        <div><?= htmlspecialchars($p['name']) ?>
-                            <div style="font-size: 0.85rem; font-weight: 400; margin-top: 5px; opacity: 0.9;">📍 <?= $distLabel ?></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        <?php endwhile; ?>
-    </div>
-</section>
-
 <?php include 'footer.php'; ?>
 
 <!-- ================================== MAP ================================== -->
@@ -144,84 +115,63 @@
     var allPlaces = [];
     var activeMarkers = [];
 
-    // Define the bounds around HAU
-    // Bounds (Zoom out): Dau, Baliti, Porac, Pulung Cacutud
     var maxBounds = L.latLngBounds(
-        [15.1033, 120.5614], // southwest - Mega Dike (Near Bayung Porac Park)
-        [15.1657, 120.6178]  // northeast - Pulung Cacutud (near Punta Verde Subdivision)
+        [15.1033, 120.5614],
+        [15.1657, 120.6178]
     );
 
     var map = L.map('map', {
         dragging: true,
         scrollWheelZoom: true,
         doubleClickZoom: true,
-        maxBounds: maxBounds,       // locks panning to the area
-        maxBoundsViscosity: 1.0,    // user cannot drag outside map, it bounces back immediately
-        minZoom: 14                 // prevents zooming out too far
-    }).setView([15.133270, 120.591433], 15); // Center - HAU, Zoom level 15 (Street View)
+        maxBounds: maxBounds,
+        maxBoundsViscosity: 1.0,
+        minZoom: 14
+    }).setView([15.133270, 120.591433], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Red icon for HAU center marker
-    // Credit: Leaflet Color Markers by Thomas Pointner - https://github.com/pointhi/leaflet-color-markers
     var redIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
         shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
-        iconSize: [30, 46],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
+        iconSize: [30, 46], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
     });
 
-    // Green icon for the user's personal private pins
     var greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
         shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
+        iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
     });
 
     L.marker([15.13324, 120.59063], { icon: redIcon }).addTo(map)
         .bindPopup('<b>Holy Angel University</b><br>Center point');
 
     L.circle([15.13324, 120.59063], {
-        radius: 1500,
-        color: '#062b53',
-        fillColor: 'green',
-        fillOpacity: 0.2,
-        weight: 2.5,
-        dashArray: '6, 6'
+        radius: 1500, color: '#062b53', fillColor: 'green',
+        fillOpacity: 0.2, weight: 2.5, dashArray: '6, 6'
     }).addTo(map);
 
-    // Load all approved places from DB and show as markers on page load
     fetch('search_places.php?q=')
     .then(r => r.json())
     .then(places => { allPlaces = places; displayMarkers(allPlaces); });
 
-    // Load the logged-in user's private pins and show as green markers
     fetch('get_user_pins.php')
     .then(r => r.json())
     .then(pins => {
         pins.forEach(pin => {
             var m = L.marker([parseFloat(pin.latitude), parseFloat(pin.longitude)], { icon: greenIcon }).addTo(map);
-            // Each green marker popup has a delete button
             m.bindPopup(
                 '<b>📌 ' + pin.name + '</b><br>' + (pin.note || 'No note added') + '<br><br>' +
                 '<button onclick="deletePin(' + pin.id + ', this)" ' +
                 'style="background:red; color:white; border:none; padding:4px 10px; border-radius:6px; cursor:pointer; font-size:0.8rem;">🗑 Delete</button>'
             );
-            // Store the marker reference so we can remove it from the map after deletion
             m.pinId = pin.id;
             activeMarkers.push(m);
         });
     });
 
-    // Delete pin function - sends the pin ID to delete_pin.php,
-    // which checks if the pin belongs to the user before deleting
     function deletePin(pinId, btn) {
         if (!confirm('Delete this pin?')) return;
         fetch('delete_pin.php', {
@@ -232,7 +182,6 @@
         .then(r => r.json())
         .then(data => {
             if (data.status === 'success') {
-                // Find and remove the marker from the map
                 activeMarkers.forEach((m, i) => {
                     if (m.pinId === pinId) { map.removeLayer(m); activeMarkers.splice(i, 1); }
                 });
@@ -240,9 +189,7 @@
         });
     }
 
-    // Doc 2 improvement: preserve green (private) pins when filters/search re-render markers
     function displayMarkers(placesToDisplay) {
-        // Keep green pins — only remove place markers
         activeMarkers = activeMarkers.filter(m => {
             if (m.pinId) return true;
             map.removeLayer(m); return false;
@@ -253,7 +200,6 @@
             var lng = parseFloat(place.longitude);
             if (!lat || !lng) return;
 
-            // Use place_id in link so cafe_window always resolves correctly (Doc 2 improvement)
             var pid  = place.id || 0;
             var link = pid
                 ? 'cafe_window.php?place_id=' + pid + '&cafe=' + encodeURIComponent(place.name)
@@ -261,8 +207,7 @@
 
             var marker = L.marker([lat, lng]).addTo(map)
                 .bindTooltip('<b>' + place.name + '</b><br>' + place.location, {
-                    direction: 'top',
-                    offset: [0, -10]
+                    direction: 'top', offset: [0, -10]
                 });
             marker.on('click', () => { window.location.href = link; });
             activeMarkers.push(marker);
@@ -380,7 +325,6 @@
     }
 
     function startPinPlacement() {
-        // Hide the modal so the user can click freely on the map
         document.getElementById('pin-modal').style.display = 'none';
         pinPlaceMode = true;
 
@@ -397,11 +341,9 @@
 
         if (pinPlaceMarker) { map.removeLayer(pinPlaceMarker); pinPlaceMarker = null; }
 
-        // Reset form fields (Doc 2 improvement: forEach loop)
         ['pin-lat', 'pin-lng', 'pin-name', 'pin-note'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('pin-save-msg').textContent = '';
 
-        // Reset status back to original prompt
         var status = document.getElementById('pin-place-status');
         status.innerHTML = '📍 No pin placed yet — <button onclick="startPinPlacement()" style="background:#6D3E1C; color:white; border:none; padding:4px 10px; border-radius:6px; cursor:pointer; font-size:0.85rem;">Click here to place pin</button>';
         status.style.background   = '#f0f4ff';
@@ -419,7 +361,6 @@
         if (!lat || !lng) { msg.style.color = 'red'; msg.textContent = 'Please place a pin on the map first.'; return; }
         if (!name)        { msg.style.color = 'red'; msg.textContent = 'Please enter a name for your pin.'; return; }
 
-        // Send to save_pin.php to store in the user_pins table
         fetch('save_pin.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -428,7 +369,6 @@
         .then(r => r.json())
         .then(data => {
             if (data.status === 'success') {
-                // Replace the temporary marker with a permanent green one
                 if (pinPlaceMarker) map.removeLayer(pinPlaceMarker);
                 L.marker([parseFloat(lat), parseFloat(lng)], { icon: greenIcon }).addTo(map)
                     .bindPopup('<b>📌 ' + name + '</b><br>' + (note || 'No note added'))
@@ -467,7 +407,6 @@
         var banner = document.getElementById('pin-banner');
         if (banner) banner.remove();
 
-        // Reset form fields (Doc 2 improvement: forEach loop)
         ['propose-lat', 'propose-lng', 'propose-name', 'propose-location', 'propose-description']
             .forEach(id => document.getElementById(id).value = '');
 
@@ -489,16 +428,13 @@
         document.body.appendChild(banner);
     }
 
-    // Single map click handler - checks which mode is active
     map.on('click', e => {
         var lat = e.latlng.lat;
         var lng = e.latlng.lng;
 
-        // Handle PIN A PLACE mode
         if (pinPlaceMode) {
             if (pinPlaceMarker) map.removeLayer(pinPlaceMarker);
 
-            // Drop a temporary draggable marker at the clicked spot
             pinPlaceMarker = L.marker([lat, lng], { draggable: true }).addTo(map);
             pinPlaceMarker.bindPopup('📍 Your private pin').openPopup();
 
@@ -515,7 +451,6 @@
             status.style.borderColor = '#a0ddb0';
             status.style.color       = '#2d7a4f';
 
-            // Update coordinates if the user drags the marker
             pinPlaceMarker.on('dragend', () => {
                 var p = pinPlaceMarker.getLatLng();
                 document.getElementById('pin-lat').value = p.lat.toFixed(7);
@@ -528,7 +463,6 @@
             return;
         }
 
-        // Handle PROPOSAL mode
         if (proposalMode) {
             if (proposalMarker) map.removeLayer(proposalMarker);
 
@@ -568,8 +502,7 @@
         var location = document.getElementById('propose-location').value.trim();
         var desc     = document.getElementById('propose-description').value.trim();
 
-        // Doc 2 improvement: merged validation checks
-        if (!lat || !lng)          { alert('Please place a pin on the map first.'); return; }
+        if (!lat || !lng)                { alert('Please place a pin on the map first.'); return; }
         if (!name || !location || !desc) { alert('Please fill in all required fields.'); return; }
 
         var formData = new FormData();
