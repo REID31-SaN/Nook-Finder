@@ -13,7 +13,8 @@ if (empty($_SESSION['user_id'])) {
 }
 
 $uid  = (int) $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT Type FROM accounts WHERE account_id = ?");
+// Use v_accounts so role is resolved via the roles table (3NF)
+$stmt = $conn->prepare("SELECT Type FROM v_accounts WHERE account_id = ?");
 $stmt->bind_param("i", $uid);
 $stmt->execute();
 $stmt->bind_result($userType);
@@ -25,7 +26,10 @@ if ($userType !== 'Admin') {
     exit;
 }
 
-// Data queries
+// ── Role filter for User Accounts tab ─────────────────
+$role_filter = $_GET['role_filter'] ?? 'all';
+
+// ── Data queries ───────────────────────────────────────
 $pending_places = $conn->query("
     SELECT p.*, a.username AS proposer
     FROM places p
@@ -34,18 +38,32 @@ $pending_places = $conn->query("
     ORDER BY p.created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
+// All Locations — uses v_places to pull reviewed_by/reviewed_at from
+// the separate place_review_decisions table (3NF)
 $all_places = $conn->query("
     SELECT p.*, a.username AS reviewer
-    FROM places p
+    FROM v_places p
     LEFT JOIN accounts a ON p.reviewed_by = a.account_id
     ORDER BY p.created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
+// User Accounts — filtered; v_accounts resolves role via JOIN (3NF)
+$role_sql_filter = match($role_filter) {
+    'Admin' => "WHERE Type = 'Admin'",
+    'User'  => "WHERE Type = 'User'",
+    default => ''
+};
 $all_users = $conn->query("
-    SELECT account_id, username, Type, created_at
-    FROM accounts
+    SELECT account_id, username, profile_pic, Type, created_at
+    FROM v_accounts
+    $role_sql_filter
     ORDER BY created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
+
+// Counts for the filter buttons
+$count_all   = $conn->query("SELECT COUNT(*) FROM v_accounts")->fetch_row()[0];
+$count_admin = $conn->query("SELECT COUNT(*) FROM v_accounts WHERE Type = 'Admin'")->fetch_row()[0];
+$count_user  = $conn->query("SELECT COUNT(*) FROM v_accounts WHERE Type = 'User'")->fetch_row()[0];
 
 include 'header.php';
 ?>
@@ -79,6 +97,18 @@ include 'header.php';
     .toast              { position: fixed; bottom: 32px; right: 32px; background: #062b53; color: white; padding: 14px 22px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 8px 32px rgba(6,43,83,0.35); display: flex; align-items: center; gap: 10px; animation: slideUp 0.4s ease, fadeOut 0.5s ease 3.5s forwards; z-index: 9999; }
     @keyframes slideUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     @keyframes fadeOut  { from { opacity:1; } to { opacity:0; pointer-events:none; } }
+
+    /* ── Role filter bar ── */
+    .role-filter-bar        { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .role-filter-bar > span { font-weight: 700; color: #062b53; font-size: 0.88rem; margin-right: 4px; }
+    .role-filter-btn        { padding: 5px 16px; border-radius: 20px; border: 2px solid #062b53; background: transparent; color: #062b53; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .role-filter-btn:hover,
+    .role-filter-btn.active { background: #062b53; color: white; }
+    .role-filter-count      { opacity: 0.6; font-size: 0.75rem; }
+
+    /* ── Avatar ── */
+    .user-avatar      { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #e8d9c4; vertical-align: middle; }
+    .user-avatar-init { width: 34px; height: 34px; border-radius: 50%; background: #e8d9c4; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; color: #6D3E1C; font-size: 0.85rem; vertical-align: middle; }
 </style>
 
 <?php if (isset($_GET['published'])): ?>
@@ -102,7 +132,9 @@ include 'header.php';
         <button class="tab-btn" onclick="switchTab('users', this)">User Accounts</button>
     </div>
 
-    <!-- PENDING PROPOSALS -->
+    <!-- ══════════════════════════════════════════════
+         PENDING PROPOSALS
+    ══════════════════════════════════════════════ -->
     <div id="tab-pending" class="tab-content active">
         <div class="section-title">Pending Proposals</div>
         <table>
@@ -160,7 +192,9 @@ include 'header.php';
         </table>
     </div>
 
-    <!-- ALL LOCATIONS -->
+    <!-- ══════════════════════════════════════════════
+         ALL LOCATIONS
+    ══════════════════════════════════════════════ -->
     <div id="tab-locations" class="tab-content">
         <div class="section-title">All Locations</div>
         <table>
@@ -196,22 +230,58 @@ include 'header.php';
         </table>
     </div>
 
-    <!-- USER ACCOUNTS -->
+    <!-- ══════════════════════════════════════════════
+         USER ACCOUNTS
+    ══════════════════════════════════════════════ -->
     <div id="tab-users" class="tab-content">
         <div class="section-title">User Accounts</div>
+
+        <!-- Role filter — clicking reloads the page with ?role_filter=X,
+             and the JS below auto-opens the Users tab on reload -->
+        <div class="role-filter-bar">
+            <span>Filter by Role:</span>
+            <a href="?role_filter=all"
+               class="role-filter-btn <?= $role_filter === 'all'   ? 'active' : '' ?>">
+                All <span class="role-filter-count">(<?= $count_all ?>)</span>
+            </a>
+            <a href="?role_filter=Admin"
+               class="role-filter-btn <?= $role_filter === 'Admin' ? 'active' : '' ?>">
+                Admins <span class="role-filter-count">(<?= $count_admin ?>)</span>
+            </a>
+            <a href="?role_filter=User"
+               class="role-filter-btn <?= $role_filter === 'User'  ? 'active' : '' ?>">
+                Users <span class="role-filter-count">(<?= $count_user ?>)</span>
+            </a>
+        </div>
+
         <table>
             <thead>
-                <tr><th>ID</th><th>Username</th><th>Role</th><th>Joined</th></tr>
+                <tr><th>ID</th><th>Avatar</th><th>Username</th><th>Role</th><th>Joined</th></tr>
             </thead>
             <tbody>
-            <?php foreach ($all_users as $row): ?>
+            <?php if (empty($all_users)): ?>
+                <tr><td colspan="5" style="text-align:center;color:#888;padding:20px;">No accounts found.</td></tr>
+            <?php else: ?>
+                <?php foreach ($all_users as $row): ?>
                 <tr>
-                    <td><?= $row['account_id'] ?></td>
-                    <td><?= htmlspecialchars($row['username']) ?></td>
+                    <td>#<?= $row['account_id'] ?></td>
+                    <td>
+                        <?php if (!empty($row['profile_pic'])): ?>
+                            <img src="<?= htmlspecialchars($row['profile_pic']) ?>"
+                                 alt="<?= htmlspecialchars($row['username']) ?>"
+                                 class="user-avatar">
+                        <?php else: ?>
+                            <span class="user-avatar-init">
+                                <?= strtoupper(substr($row['username'], 0, 1)) ?>
+                            </span>
+                        <?php endif; ?>
+                    </td>
+                    <td style="font-weight:600;"><?= htmlspecialchars($row['username']) ?></td>
                     <td><span class="badge badge-<?= strtolower($row['Type']) ?>"><?= htmlspecialchars($row['Type']) ?></span></td>
                     <td><?= date('M d, Y', strtotime($row['created_at'])) ?></td>
                 </tr>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>
@@ -224,6 +294,13 @@ function switchTab(tab, btn) {
     document.getElementById('tab-' + tab).classList.add('active');
     btn.classList.add('active');
 }
+
+// Auto-open Users tab when a role filter is active
+(function () {
+    if (new URLSearchParams(window.location.search).has('role_filter')) {
+        switchTab('users', document.querySelectorAll('.tab-btn')[2]);
+    }
+})();
 
 function reviewPlace(id, status, reason) {
     const msg = status === 'approved'
