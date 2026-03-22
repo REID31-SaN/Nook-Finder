@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2026 at 03:44 PM
+-- Generation Time: Mar 22, 2026 at 11:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,12 +41,12 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `created_at`, `Type`) VALUES
-(1, 'tester', 'test', NULL, '2026-02-18 09:36:13', 'Admin'),
-(2, 'Almariego', 'james', 'uploads/1773415783_cec8f5c5-38e6-43ed-a999-e65ce6eb3cf6.jpg', '2026-02-18 14:09:51', 'Admin'),
-(3, 'Incognito', 'rich', 'uploads/1773930976_baby jake.jpg', '2026-02-18 14:10:55', 'Admin'),
-(4, 'Montoya', 'dohn', NULL, '2026-02-18 14:11:25', 'Admin'),
-(5, 'Santos', 'jeorge', 'uploads/1773901768_oSE91LrU.jpg', '2026-02-18 14:11:51', 'Admin'),
-(7, 'Tourist', 'password', NULL, '2026-03-17 07:57:39', 'User');
+(18, 'Almariego', '$2y$10$TsZVuuD9fe4SaxqazW9YbuoBT052D0g0aVHM1ZAtqR/HJgxekOLr.', 'uploads/1774175923_1773415783_cec8f5c5-38e6-43ed-a999-e65ce6eb3cf6.jpg', '2026-03-22 10:27:55', 'Admin'),
+(19, 'Montoya', '$2y$10$f67r08mnhIv7ohEyEc4Aju6FYCYEpXBQQC/oYLPZyvSxbzqDO.8su', NULL, '2026-03-22 10:28:38', 'Admin'),
+(20, 'Incognito', '$2y$10$yYlTznduQFq6TXQJrDe33O2Su3Hm82SFnQlKTVd8WcUvuQCD3RLvC', 'uploads/1774175990_1773058865_jarbihs.png', '2026-03-22 10:28:49', 'Admin'),
+(21, 'Santos', '$2y$10$mVxiW988NtM4db7o7KPUmu0fJN1hbuQw2SzNiRuzEcm1sxpp4bf.e', 'uploads/1774176134_channels4_profile.jpg', '2026-03-22 10:28:57', 'Admin'),
+(22, 'Tester', '$2y$10$4clpfISNWFoBGq9VdRnDt.youjSLlWl52ZsDQdh03DZ7jeGvqkm4G', NULL, '2026-03-22 10:29:16', 'Admin'),
+(23, 'Tourist', '$2y$10$5.x4QBmARtg5vo6DuGrDJOVD.wEWg04VledAxFtdDEjC5tKaLOTNm', NULL, '2026-03-22 10:30:55', 'User');
 
 -- --------------------------------------------------------
 
@@ -60,13 +60,6 @@ CREATE TABLE `favorites` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `place_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `favorites`
---
-
-INSERT INTO `favorites` (`id`, `account_id`, `created_at`, `place_id`) VALUES
-(31, 3, '2026-03-17 14:46:12', 5);
 
 -- --------------------------------------------------------
 
@@ -102,7 +95,7 @@ CREATE TABLE `places` (
 
 INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `created_by`, `created_at`, `image`, `latitude`, `longitude`, `wifi`, `outlet`, `aircon`, `parking`, `status`, `proposed_by`, `reviewed_by`, `reviewed_at`, `rejection_reason`) VALUES
 (1, 'Kuwento Cafe', 'Angeles City, Pampanga', 1.3, 'A cozy cafe near HAU perfect for studying and relaxing.', NULL, '2026-03-09 12:47:54', 'images/kwento.jpg', 15.1344100, 120.5971200, 'Yes', 'Yes', 'Yes', 'No', 'approved', NULL, NULL, NULL, NULL),
-(2, 'Cush Lounge', 'Angeles City, Pampanga', 1.4, 'A comfortable lounge space for students to unwind and work.', NULL, '2026-03-09 12:47:54', 'images/Cush.jpg', 15.1424783, 120.5970223, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
+(2, 'Cush Lounge', 'Angeles City, Pampanga', 1.4, 'A comfortable lounge space for students to unwind and work.', NULL, '2026-03-09 12:47:54', 'images/Cush.jpg', 15.1521700, 120.5925400, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
 (3, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.6, 'A coworking space ideal for collaborative work and meetings.', NULL, '2026-03-09 12:47:54', 'images/Vessel.jpg', 15.1368900, 120.5918900, 'Yes', 'Yes', 'Yes', 'Yes', 'approved', NULL, NULL, NULL, NULL),
 (4, 'Co.Create', 'Angeles City, Pampanga', 0.3, 'A creative shared workspace close to HAU.', NULL, '2026-03-09 12:47:54', 'images/CoCreate.PNG', 15.1332700, 120.5918200, 'Yes', 'Yes', 'Yes', 'No', 'approved', NULL, NULL, NULL, NULL),
 (5, 'oFTr', 'Angeles City, Pampanga', 0.3, 'A student-friendly nook near the university.', NULL, '2026-03-09 12:47:54', 'images/OFTR.jpg', 15.1343900, 120.5914300, 'Yes', 'Yes', 'Yes', 'No', 'approved', NULL, NULL, NULL, NULL),
@@ -172,14 +165,6 @@ CREATE TABLE `user_pins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user_pins`
---
-
-INSERT INTO `user_pins` (`id`, `account_id`, `name`, `note`, `latitude`, `longitude`, `created_at`) VALUES
-(2, 5, 'Mixue', 'ice cream shop', 15.1350497, 120.5904812, '2026-03-19 07:49:25'),
-(5, 5, 'Lilim', 'Cafe', 15.1354070, 120.5890596, '2026-03-19 07:57:50');
-
---
 -- Indexes for dumped tables
 --
 
@@ -244,13 +229,13 @@ ALTER TABLE `user_pins`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `places`
@@ -328,13 +313,6 @@ ALTER TABLE `user_pins`
   ADD CONSTRAINT `user_pins_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE;
 COMMIT;
 
--- Migration: Add cafe window fields to places table
--- Run this once in phpMyAdmin or via MySQL CLI
-
-ALTER TABLE `places`
-    ADD COLUMN `hours_weekday` VARCHAR(100) DEFAULT NULL COMMENT 'e.g. 8 AM – 10 PM (Mon–Sat)' AFTER `parking`,
-    ADD COLUMN `hours_weekend` VARCHAR(100) DEFAULT NULL COMMENT 'e.g. 10 AM – 8 PM (Sunday)' AFTER `hours_weekday`;
-    
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
