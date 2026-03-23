@@ -13,11 +13,11 @@ if ($is_ajax) {
     $current_user_id = $_SESSION['user_id'] ?? 0;
     $user_type = 'User';
     if ($current_user_id > 0 && isset($conn)) {
-        $u_stmt = $conn->prepare("SELECT Type FROM accounts WHERE account_id = ?");
+        $u_stmt = $conn->prepare("SELECT role_id FROM accounts WHERE account_id = ?");
         $u_stmt->bind_param("i", $current_user_id);
         $u_stmt->execute();
         if($u_row = $u_stmt->get_result()->fetch_assoc()) {
-            $user_type = $u_row['Type'];
+            $user_type = $u_row['role_id'] === 2 ? 'Admin' : 'User';
         }
     }
 }

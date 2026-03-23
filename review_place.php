@@ -14,14 +14,14 @@ if (empty($_SESSION['user_id'])) {
 }
 
 $uid  = (int) $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT Type FROM accounts WHERE account_id = ?");
+$stmt = $conn->prepare("SELECT role_id FROM accounts WHERE account_id = ?");
 $stmt->bind_param("i", $uid);
 $stmt->execute();
-$stmt->bind_result($type);
+$stmt->bind_result($roleId);
 $stmt->fetch();
 $stmt->close();
 
-if ($type !== 'Admin') {
+if ($roleId !== 2) {
     echo json_encode(['success' => false, 'message' => 'Not authorized.']);
     exit;
 }

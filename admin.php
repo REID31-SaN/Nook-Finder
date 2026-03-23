@@ -34,21 +34,23 @@ $all_places = $conn->query("
 ")->fetch_all(MYSQLI_ASSOC);
 
 $role_sql_filter = match($role_filter) {
-    'Admin' => "WHERE Type = 'Admin'",
-    'User'  => "WHERE Type = 'User'",
+    'Admin' => "WHERE role_id = 2",
+    'User'  => "WHERE role_id = 1",
     default => ''
 };
 
 $all_users = $conn->query("
-    SELECT account_id, username, profile_pic, Type, created_at
-    FROM accounts
+    SELECT a.account_id, a.username, a.profile_pic, a.created_at,
+           r.role_name AS Type
+    FROM accounts a
+    JOIN roles r ON a.role_id = r.role_id
     $role_sql_filter
-    ORDER BY created_at DESC
+    ORDER BY a.created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
 $count_all   = (int) $conn->query("SELECT COUNT(*) FROM accounts")->fetch_row()[0];
-$count_admin = (int) $conn->query("SELECT COUNT(*) FROM accounts WHERE Type = 'Admin'")->fetch_row()[0];
-$count_user  = (int) $conn->query("SELECT COUNT(*) FROM accounts WHERE Type = 'User'")->fetch_row()[0];
+$count_admin = (int) $conn->query("SELECT COUNT(*) FROM accounts WHERE role_id = 2")->fetch_row()[0];
+$count_user  = (int) $conn->query("SELECT COUNT(*) FROM accounts WHERE role_id = 1")->fetch_row()[0];
 
 include 'header.php';
 ?>

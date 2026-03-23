@@ -10,14 +10,14 @@ if (!isset($_SESSION['user_id'])) {
 include 'config.php';
 
 // Verify admin
-$stmt = $conn->prepare("SELECT Type FROM accounts WHERE account_id = ?");
+$stmt = $conn->prepare("SELECT role_id FROM accounts WHERE account_id = ?");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
-$stmt->bind_result($userType);
+$stmt->bind_result($roleId);
 $stmt->fetch();
 $stmt->close();
 
-if ($userType !== 'Admin') {
+if ($roleId !== 2) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized.']);
     exit;
 }
