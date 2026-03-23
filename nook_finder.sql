@@ -101,7 +101,7 @@ INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `i
 (5, 'Angeles City Library', 'Angeles City, Pampanga', 0.80, 'A public library offering a quiet space for focused study.', 'images/ACLib.jpg', 15.1352800, 120.5908100, 'No', 'No', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
 (6, 'BRUDR', 'Angeles City, Pampanga', 0.50, 'A cafe and hangout spot near HAU.', 'images/BRUDR.jpg', 15.1363800, 120.5907000, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
 (7, 'Arte Cafe', 'Angeles City, Pampanga', 1.00, 'An artsy cafe with a relaxed atmosphere for students.', 'images/ARTE.jpg', 15.1384300, 120.5935200, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(20, 'HAU Library', 'Inside HAU', 0.00, 'Library for Students.', NULL, 15.1334652, 120.5909854, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, NULL, '2026-03-17 15:32:29'),
+(20, 'HAU Library', 'Inside HAU', 0.00, 'Library for Students.', NULL, 15.1334652, 120.5909854, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, '2026-03-17 15:32:29'),
 (21, 'Mixue', 'Bart Mall', 0.00, 'Ice cream shop.', NULL, 15.1338691, 120.5917042, 'No', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, '2026-03-19 07:18:37');
 
 ALTER TABLE `places`
