@@ -108,7 +108,7 @@ function renderHeartButton($cafeName, $cafeImage) {
         <?php if (isset($_SESSION['user_id'])): ?>
             <a href="profile.php" class="nav-link account-link">
                 Account
-                <img src="<?php echo !empty($_SESSION['profile_pic']) ? htmlspecialchars($_SESSION['profile_pic']) : 'images/default-avatar.png'; ?>" 
+                <img src="<?php echo !empty($_SESSION['profile_pic']) ? htmlspecialchars($_SESSION['profile_pic']) : 'images/default-user.jpg'; ?>" 
                     alt="Profile" class="nav-profile-pic">
             </a>
             <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Admin'): ?>
