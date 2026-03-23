@@ -83,30 +83,26 @@ CREATE TABLE `places` (
   `reviewed_by` int(11) DEFAULT NULL,
   `reviewed_at` datetime DEFAULT NULL,
   `rejection_reason` varchar(255) DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `fk_places_created_by` (`created_by`),
   KEY `fk_places_proposed_by` (`proposed_by`),
   KEY `fk_places_reviewed_by` (`reviewed_by`),
-  CONSTRAINT `fk_places_created_by`
-    FOREIGN KEY (`created_by`) REFERENCES `accounts` (`account_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_places_proposed_by`
     FOREIGN KEY (`proposed_by`) REFERENCES `accounts` (`account_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_places_reviewed_by`
     FOREIGN KEY (`reviewed_by`) REFERENCES `accounts` (`account_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `image`, `latitude`, `longitude`, `wifi`, `outlet`, `aircon`, `parking`, `hours_weekday`, `hours_weekend`, `status`, `proposed_by`, `reviewed_by`, `reviewed_at`, `rejection_reason`, `created_by`, `created_at`) VALUES
-(1, 'Kuwento Cafe', 'Angeles City, Pampanga', 1.30, 'A cozy cafe near HAU perfect for studying and relaxing.', 'images/kwento.jpg', 15.1344100, 120.5971200, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(2, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.60, 'A coworking space ideal for collaborative work and meetings.', 'images/Vessel.jpg', 15.1368900, 120.5918900, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(3, 'Co.Create', 'Angeles City, Pampanga', 0.30, 'A creative shared workspace close to HAU.', 'images/CoCreate.PNG', 15.1332700, 120.5918200, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(4, 'oFTr', 'Angeles City, Pampanga', 0.30, 'A student-friendly nook near the university.', 'images/OFTR.jpg', 15.1343900, 120.5914300, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(5, 'Angeles City Library', 'Angeles City, Pampanga', 0.80, 'A public library offering a quiet space for focused study.', 'images/ACLib.jpg', 15.1352800, 120.5908100, 'No', 'No', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(6, 'BRUDR', 'Angeles City, Pampanga', 0.50, 'A cafe and hangout spot near HAU.', 'images/BRUDR.jpg', 15.1363800, 120.5907000, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(7, 'Arte Cafe', 'Angeles City, Pampanga', 1.00, 'An artsy cafe with a relaxed atmosphere for students.', 'images/ARTE.jpg', 15.1384300, 120.5935200, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `image`, `latitude`, `longitude`, `wifi`, `outlet`, `aircon`, `parking`, `hours_weekday`, `hours_weekend`, `status`, `proposed_by`, `reviewed_by`, `reviewed_at`, `rejection_reason`, `created_at`) VALUES
+(1, 'Kuwento Cafe', 'Angeles City, Pampanga', 1.30, 'A cozy cafe near HAU perfect for studying and relaxing.', 'images/kwento.jpg', 15.1344100, 120.5971200, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(2, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.60, 'A coworking space ideal for collaborative work and meetings.', 'images/Vessel.jpg', 15.1368900, 120.5918900, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(3, 'Co.Create', 'Angeles City, Pampanga', 0.30, 'A creative shared workspace close to HAU.', 'images/CoCreate.PNG', 15.1332700, 120.5918200, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(4, 'oFTr', 'Angeles City, Pampanga', 0.30, 'A student-friendly nook near the university.', 'images/OFTR.jpg', 15.1343900, 120.5914300, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(5, 'Angeles City Library', 'Angeles City, Pampanga', 0.80, 'A public library offering a quiet space for focused study.', 'images/ACLib.jpg', 15.1352800, 120.5908100, 'No', 'No', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(6, 'BRUDR', 'Angeles City, Pampanga', 0.50, 'A cafe and hangout spot near HAU.', 'images/BRUDR.jpg', 15.1363800, 120.5907000, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(7, 'Arte Cafe', 'Angeles City, Pampanga', 1.00, 'An artsy cafe with a relaxed atmosphere for students.', 'images/ARTE.jpg', 15.1384300, 120.5935200, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
 (20, 'HAU Library', 'Inside HAU', 0.00, 'Library for Students.', NULL, 15.1334652, 120.5909854, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, NULL, '2026-03-17 15:32:29'),
-(21, 'Mixue', 'Bart Mall', 0.00, 'Ice cream shop.', NULL, 15.1338691, 120.5917042, 'No', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, NULL, '2026-03-19 07:18:37');
+(21, 'Mixue', 'Bart Mall', 0.00, 'Ice cream shop.', NULL, 15.1338691, 120.5917042, 'No', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, '2026-03-19 07:18:37');
 
 ALTER TABLE `places`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
