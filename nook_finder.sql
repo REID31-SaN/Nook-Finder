@@ -44,7 +44,6 @@ CREATE TABLE `accounts` (
   `profile_pic` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `role_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
-  `Type` varchar(10) NOT NULL DEFAULT 'User',
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `uq_username` (`username`),
   KEY `fk_accounts_role` (`role_id`),
@@ -53,39 +52,13 @@ CREATE TABLE `accounts` (
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DELIMITER $$
-
-CREATE TRIGGER `bi_accounts_role`
-BEFORE INSERT ON `accounts`
-FOR EACH ROW
-BEGIN
-  IF NEW.Type = 'Admin' THEN
-    SET NEW.role_id = 2;
-  ELSE
-    SET NEW.role_id = 1;
-  END IF;
-END$$
-
-CREATE TRIGGER `bu_accounts_role`
-BEFORE UPDATE ON `accounts`
-FOR EACH ROW
-BEGIN
-  IF NEW.Type = 'Admin' THEN
-    SET NEW.role_id = 2;
-  ELSE
-    SET NEW.role_id = 1;
-  END IF;
-END$$
-
-DELIMITER ;
-
-INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `created_at`, `role_id`, `Type`) VALUES
-(18, 'Almariego', '$2y$10$TsZVuuD9fe4SaxqazW9YbuoBT052D0g0aVHM1ZAtqR/HJgxekOLr.', 'uploads/1774175923_1773415783_cec8f5c5-38e6-43ed-a999-e65ce6eb3cf6.jpg', '2026-03-22 10:27:55', 2, 'Admin'),
-(19, 'Montoya', '$2y$10$f67r08mnhIv7ohEyEc4Aju6FYCYEpXBQQC/oYLPZyvSxbzqDO.8su', NULL, '2026-03-22 10:28:38', 2, 'Admin'),
-(20, 'Incognito', '$2y$10$yYlTznduQFq6TXQJrDe33O2Su3Hm82SFnQlKTVd8WcUvuQCD3RLvC', 'uploads/1774175990_1773058865_jarbihs.png', '2026-03-22 10:28:49', 2, 'Admin'),
-(21, 'Santos', '$2y$10$mVxiG988NtM4db7o7KPUmu0fJN1hbuQw2SzNiRuzEcm1sxpp4bf.e', 'uploads/1774176134_channels4_profile.jpg', '2026-03-22 10:28:57', 2, 'Admin'),
-(22, 'Tester', '$2y$10$4clpfISNWFoBGq9VdRnDt.youjSLlWl52ZsDQdh03DZ7jeGvqkm4G', NULL, '2026-03-22 10:29:16', 2, 'Admin'),
-(23, 'Tourist', '$2y$10$5.x4QBmARtg5vo6DuGrDJOVD.wEWg04VledAxFtdDEjC5tKaLOTNm', NULL, '2026-03-22 10:30:55', 1, 'User');
+INSERT INTO `accounts` (`account_id`, `username`, `password`, `profile_pic`, `created_at`, `role_id`) VALUES
+(18, 'Almariego', '$2y$10$TsZVuuD9fe4SaxqazW9YbuoBT052D0g0aVHM1ZAtqR/HJgxekOLr.', 'uploads/1774175923_1773415783_cec8f5c5-38e6-43ed-a999-e65ce6eb3cf6.jpg', '2026-03-22 10:27:55', 2),
+(19, 'Montoya', '$2y$10$f67r08mnhIv7ohEyEc4Aju6FYCYEpXBQQC/oYLPZyvSxbzqDO.8su', NULL, '2026-03-22 10:28:38', 2),
+(20, 'Incognito', '$2y$10$yYlTznduQFq6TXQJrDe33O2Su3Hm82SFnQlKTVd8WcUvuQCD3RLvC', 'uploads/1774175990_1773058865_jarbihs.png', '2026-03-22 10:28:49', 2),
+(21, 'Santos', '$2y$10$mVxiG988NtM4db7o7KPUmu0fJN1hbuQw2SzNiRuzEcm1sxpp4bf.e', 'uploads/1774176134_channels4_profile.jpg', '2026-03-22 10:28:57', 2),
+(22, 'Tester', '$2y$10$4clpfISNWFoBGq9VdRnDt.youjSLlWl52ZsDQdh03DZ7jeGvqkm4G', NULL, '2026-03-22 10:29:16', 2),
+(23, 'Tourist', '$2y$10$5.x4QBmARtg5vo6DuGrDJOVD.wEWg04VledAxFtdDEjC5tKaLOTNm', NULL, '2026-03-22 10:30:55', 1);
 
 ALTER TABLE `accounts`
   MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
@@ -126,13 +99,12 @@ CREATE TABLE `places` (
 
 INSERT INTO `places` (`id`, `name`, `location`, `distance_km`, `description`, `image`, `latitude`, `longitude`, `wifi`, `outlet`, `aircon`, `parking`, `hours_weekday`, `hours_weekend`, `status`, `proposed_by`, `reviewed_by`, `reviewed_at`, `rejection_reason`, `created_by`, `created_at`) VALUES
 (1, 'Kuwento Cafe', 'Angeles City, Pampanga', 1.30, 'A cozy cafe near HAU perfect for studying and relaxing.', 'images/kwento.jpg', 15.1344100, 120.5971200, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(2, 'Cush Lounge', 'Angeles City, Pampanga', 1.40, 'A comfortable lounge space for students to unwind and work.', 'images/Cush.jpg', 15.1521700, 120.5925400, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(3, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.60, 'A coworking space ideal for collaborative work and meetings.', 'images/Vessel.jpg', 15.1368900, 120.5918900, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(4, 'Co.Create', 'Angeles City, Pampanga', 0.30, 'A creative shared workspace close to HAU.', 'images/CoCreate.PNG', 15.1332700, 120.5918200, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(5, 'oFTr', 'Angeles City, Pampanga', 0.30, 'A student-friendly nook near the university.', 'images/OFTR.jpg', 15.1343900, 120.5914300, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(6, 'Angeles City Library', 'Angeles City, Pampanga', 0.80, 'A public library offering a quiet space for focused study.', 'images/ACLib.jpg', 15.1352800, 120.5908100, 'No', 'No', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(7, 'BRUDR', 'Angeles City, Pampanga', 0.50, 'A cafe and hangout spot near HAU.', 'images/BRUDR.jpg', 15.1363800, 120.5907000, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
-(8, 'Arte Cafe', 'Angeles City, Pampanga', 1.00, 'An artsy cafe with a relaxed atmosphere for students.', 'images/ARTE.jpg', 15.1384300, 120.5935200, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(2, 'Vessel Coworking Space', 'Angeles City, Pampanga', 0.60, 'A coworking space ideal for collaborative work and meetings.', 'images/Vessel.jpg', 15.1368900, 120.5918900, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(3, 'Co.Create', 'Angeles City, Pampanga', 0.30, 'A creative shared workspace close to HAU.', 'images/CoCreate.PNG', 15.1332700, 120.5918200, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(4, 'oFTr', 'Angeles City, Pampanga', 0.30, 'A student-friendly nook near the university.', 'images/OFTR.jpg', 15.1343900, 120.5914300, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(5, 'Angeles City Library', 'Angeles City, Pampanga', 0.80, 'A public library offering a quiet space for focused study.', 'images/ACLib.jpg', 15.1352800, 120.5908100, 'No', 'No', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(6, 'BRUDR', 'Angeles City, Pampanga', 0.50, 'A cafe and hangout spot near HAU.', 'images/BRUDR.jpg', 15.1363800, 120.5907000, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
+(7, 'Arte Cafe', 'Angeles City, Pampanga', 1.00, 'An artsy cafe with a relaxed atmosphere for students.', 'images/ARTE.jpg', 15.1384300, 120.5935200, 'Yes', 'Yes', 'Yes', 'Yes', NULL, NULL, 'approved', NULL, NULL, NULL, NULL, NULL, '2026-03-09 12:47:54'),
 (20, 'HAU Library', 'Inside HAU', 0.00, 'Library for Students.', NULL, 15.1334652, 120.5909854, 'Yes', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, NULL, '2026-03-17 15:32:29'),
 (21, 'Mixue', 'Bart Mall', 0.00, 'Ice cream shop.', NULL, 15.1338691, 120.5917042, 'No', 'Yes', 'Yes', 'No', NULL, NULL, 'pending', 23, NULL, NULL, NULL, NULL, '2026-03-19 07:18:37');
 
@@ -229,7 +201,7 @@ ALTER TABLE `user_pins`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 CREATE OR REPLACE VIEW `v_accounts` AS
-SELECT account_id, username, password, profile_pic, created_at, Type
+SELECT account_id, username, password, profile_pic, created_at
 FROM `accounts`;
 
 CREATE OR REPLACE VIEW `v_places` AS
