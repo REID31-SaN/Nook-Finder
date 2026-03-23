@@ -1,35 +1,23 @@
 <?php
-// ═══════════════════════════════════════════════════════
-//  admin.php  —  Admin panel
-// ═══════════════════════════════════════════════════════
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 include 'config.php';
 
-// Guard: must be logged-in admin
 if (empty($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
 
-$uid  = (int) $_SESSION['user_id'];
-// Use v_accounts so role is resolved via the roles table (3NF)
-$stmt = $conn->prepare("SELECT Type FROM v_accounts WHERE account_id = ?");
-$stmt->bind_param("i", $uid);
-$stmt->execute();
-$stmt->bind_result($userType);
-$stmt->fetch();
-$stmt->close();
+$uid      = (int) $_SESSION['user_id'];
+$userType = $_SESSION['user_type'] ?? '';
 
 if ($userType !== 'Admin') {
     header('Location: index.php');
     exit;
 }
 
-// ── Role filter for User Accounts tab ─────────────────
 $role_filter = $_GET['role_filter'] ?? 'all';
 
-// ── Data queries ───────────────────────────────────────
 $pending_places = $conn->query("
     SELECT p.*, a.username AS proposer
     FROM places p
@@ -38,32 +26,29 @@ $pending_places = $conn->query("
     ORDER BY p.created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
-// All Locations — uses v_places to pull reviewed_by/reviewed_at from
-// the separate place_review_decisions table (3NF)
 $all_places = $conn->query("
     SELECT p.*, a.username AS reviewer
-    FROM v_places p
+    FROM places p
     LEFT JOIN accounts a ON p.reviewed_by = a.account_id
     ORDER BY p.created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
-// User Accounts — filtered; v_accounts resolves role via JOIN (3NF)
 $role_sql_filter = match($role_filter) {
     'Admin' => "WHERE Type = 'Admin'",
     'User'  => "WHERE Type = 'User'",
     default => ''
 };
+
 $all_users = $conn->query("
     SELECT account_id, username, profile_pic, Type, created_at
-    FROM v_accounts
+    FROM accounts
     $role_sql_filter
     ORDER BY created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
-// Counts for the filter buttons
-$count_all   = $conn->query("SELECT COUNT(*) FROM v_accounts")->fetch_row()[0];
-$count_admin = $conn->query("SELECT COUNT(*) FROM v_accounts WHERE Type = 'Admin'")->fetch_row()[0];
-$count_user  = $conn->query("SELECT COUNT(*) FROM v_accounts WHERE Type = 'User'")->fetch_row()[0];
+$count_all   = (int) $conn->query("SELECT COUNT(*) FROM accounts")->fetch_row()[0];
+$count_admin = (int) $conn->query("SELECT COUNT(*) FROM accounts WHERE Type = 'Admin'")->fetch_row()[0];
+$count_user  = (int) $conn->query("SELECT COUNT(*) FROM accounts WHERE Type = 'User'")->fetch_row()[0];
 
 include 'header.php';
 ?>
@@ -97,16 +82,12 @@ include 'header.php';
     .toast              { position: fixed; bottom: 32px; right: 32px; background: #062b53; color: white; padding: 14px 22px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 8px 32px rgba(6,43,83,0.35); display: flex; align-items: center; gap: 10px; animation: slideUp 0.4s ease, fadeOut 0.5s ease 3.5s forwards; z-index: 9999; }
     @keyframes slideUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     @keyframes fadeOut  { from { opacity:1; } to { opacity:0; pointer-events:none; } }
-
-    /* ── Role filter bar ── */
     .role-filter-bar        { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
     .role-filter-bar > span { font-weight: 700; color: #062b53; font-size: 0.88rem; margin-right: 4px; }
     .role-filter-btn        { padding: 5px 16px; border-radius: 20px; border: 2px solid #062b53; background: transparent; color: #062b53; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; text-decoration: none; }
     .role-filter-btn:hover,
     .role-filter-btn.active { background: #062b53; color: white; }
     .role-filter-count      { opacity: 0.6; font-size: 0.75rem; }
-
-    /* ── Avatar ── */
     .user-avatar      { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #e8d9c4; vertical-align: middle; }
     .user-avatar-init { width: 34px; height: 34px; border-radius: 50%; background: #e8d9c4; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; color: #6D3E1C; font-size: 0.85rem; vertical-align: middle; }
 </style>
@@ -132,9 +113,6 @@ include 'header.php';
         <button class="tab-btn" onclick="switchTab('users', this)">User Accounts</button>
     </div>
 
-    <!-- ══════════════════════════════════════════════
-         PENDING PROPOSALS
-    ══════════════════════════════════════════════ -->
     <div id="tab-pending" class="tab-content active">
         <div class="section-title">Pending Proposals</div>
         <table>
@@ -152,7 +130,7 @@ include 'header.php';
                 <tr>
                     <td>
                         <strong><?= htmlspecialchars($row['name']) ?></strong><br>
-                        <small style="color:#888;"><?= htmlspecialchars($row['description']) ?></small>
+                        <small style="color:#888;"><?= htmlspecialchars($row['description'] ?? '') ?></small>
                     </td>
                     <td><?= htmlspecialchars($row['location']) ?></td>
                     <td><?= $row['proposer'] ? htmlspecialchars($row['proposer']) : '<em style="color:#aaa">Guest</em>' ?></td>
@@ -192,9 +170,6 @@ include 'header.php';
         </table>
     </div>
 
-    <!-- ══════════════════════════════════════════════
-         ALL LOCATIONS
-    ══════════════════════════════════════════════ -->
     <div id="tab-locations" class="tab-content">
         <div class="section-title">All Locations</div>
         <table>
@@ -205,7 +180,10 @@ include 'header.php';
                 </tr>
             </thead>
             <tbody>
-            <?php foreach ($all_places as $row): ?>
+            <?php if (empty($all_places)): ?>
+                <tr><td colspan="7" style="text-align:center;color:#888;padding:20px;">No locations found.</td></tr>
+            <?php else: ?>
+                <?php foreach ($all_places as $row): ?>
                 <tr>
                     <td><strong><?= htmlspecialchars($row['name']) ?></strong></td>
                     <td><?= htmlspecialchars($row['location']) ?></td>
@@ -221,23 +199,19 @@ include 'header.php';
                     <td><?= $row['reviewer'] ? htmlspecialchars($row['reviewer']) : '—' ?></td>
                     <td><?= $row['reviewed_at'] ? date('M d, Y', strtotime($row['reviewed_at'])) : '—' ?></td>
                     <td>
-                        <?= $row['rejection_reason'] ? htmlspecialchars($row['rejection_reason']) : '—' ?>
+                        <?= !empty($row['rejection_reason']) ? htmlspecialchars($row['rejection_reason']) : '—' ?>
                         <br><a href="admin_edit_place.php?id=<?= $row['id'] ?>" style="font-size:0.8rem;color:#062b53;">✏️ Edit</a>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>
 
-    <!-- ══════════════════════════════════════════════
-         USER ACCOUNTS
-    ══════════════════════════════════════════════ -->
     <div id="tab-users" class="tab-content">
         <div class="section-title">User Accounts</div>
 
-        <!-- Role filter — clicking reloads the page with ?role_filter=X,
-             and the JS below auto-opens the Users tab on reload -->
         <div class="role-filter-bar">
             <span>Filter by Role:</span>
             <a href="?role_filter=all"
@@ -295,7 +269,6 @@ function switchTab(tab, btn) {
     btn.classList.add('active');
 }
 
-// Auto-open Users tab when a role filter is active
 (function () {
     if (new URLSearchParams(window.location.search).has('role_filter')) {
         switchTab('users', document.querySelectorAll('.tab-btn')[2]);
@@ -311,12 +284,14 @@ function reviewPlace(id, status, reason) {
     fetch('review_place.php', {
         method:  'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body:    `id=${id}&status=${status}&reason=${encodeURIComponent(reason)}`
+        body:    `id=${id}&status=${encodeURIComponent(status)}&reason=${encodeURIComponent(reason)}`
     })
     .then(r => r.json())
     .then(d => {
         if (d.success) location.reload();
         else alert('Error: ' + d.message);
-    });
+    })
+    .catch(() => alert('Network error. Please try again.'));
 }
 </script>
+
