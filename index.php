@@ -73,8 +73,8 @@ include_once 'header.php';
 <!-- ── Top 3 most popular ── -->
 <section class="top-three">
     <div class="top-text">
-        <h2>Top 3 Places This Week</h2>
-        <p>Student favorites based on recent activity.</p>
+        <h2>Developers' Top Picks</h2>
+        <p>Personal Favorites of Nook Finder's Creators.</p>
     </div>
     <div class="top-images">
         <?php foreach ($top3 as $place):
