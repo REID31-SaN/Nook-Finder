@@ -203,6 +203,7 @@ include 'header.php';
                     <td>
                         <?= !empty($row['rejection_reason']) ? htmlspecialchars($row['rejection_reason']) : '—' ?>
                         <br><a href="admin_edit_place.php?id=<?= $row['id'] ?>" style="font-size:0.8rem;color:#062b53;">✏️ Edit</a>
+                        <br><button class="action-btn btn-reject" style="margin-top:6px;" onclick="deletePlace(<?= $row['id'] ?>)">🗑️ Delete</button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -294,6 +295,25 @@ function reviewPlace(id, status, reason) {
         else alert('Error: ' + d.message);
     })
     .catch(() => alert('Network error. Please try again.'));
+}
+
+function deletePlace(id) {
+    if (!confirm('Are you sure you want to permanently delete this location?')) return;
+
+    fetch('delete_place.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'id=' + id
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            alert('🗑️ Location deleted.');
+            location.reload();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    });
 }
 </script>
 
