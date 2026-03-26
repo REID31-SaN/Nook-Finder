@@ -233,7 +233,7 @@ include 'header.php';
 
         <table>
             <thead>
-                <tr><th>ID</th><th>Avatar</th><th>Username</th><th>Role</th><th>Joined</th></tr>
+                <tr><th>ID</th><th>Avatar</th><th>Username</th><th>Role</th><th>Joined</th><th>Actions</th></tr>
             </thead>
             <tbody>
             <?php if (empty($all_users)): ?>
@@ -256,6 +256,13 @@ include 'header.php';
                     <td style="font-weight:600;"><?= htmlspecialchars($row['username']) ?></td>
                     <td><span class="badge badge-<?= strtolower($row['Type']) ?>"><?= htmlspecialchars($row['Type']) ?></span></td>
                     <td><?= date('M d, Y', strtotime($row['created_at'])) ?></td>
+                    <td>
+                        <?php if ($row['Type'] === 'User'): ?>
+                            <button class="action-btn btn-reject" onclick="deleteUser(<?= $row['account_id'] ?>)">Delete</button>
+                        <?php else: ?>
+                            <span style="color:#bbb; font-size:0.8rem;">—</span>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -315,5 +322,19 @@ function deletePlace(id) {
         }
     });
 }
-</script>
 
+function deleteUser(id) {
+    if (!confirm('Delete this user account permanently?')) return;
+    fetch('delete_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'id=' + id
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) { alert('User deleted.'); location.reload(); }
+        else alert('Error: ' + data.message);
+    });
+}
+
+</script>
