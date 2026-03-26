@@ -34,8 +34,8 @@ $all_places = $conn->query("
 ")->fetch_all(MYSQLI_ASSOC);
 
 $role_sql_filter = match($role_filter) {
-    'Admin' => "WHERE role_id = 2",
-    'User'  => "WHERE role_id = 1",
+    'Admin' => "WHERE a.role_id = 2",
+    'User'  => "WHERE a.role_id = 1",
     default => ''
 };
 
