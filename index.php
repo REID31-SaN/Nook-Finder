@@ -66,6 +66,29 @@ include_once 'header.php';
 ?>
 
 <main class="hero hero-home">
+    <!-- ADD SUCCESS MESSAGE HERE - RIGHT AFTER MAIN OPENS -->
+    <?php if(isset($_GET['account_deleted'])): ?>
+        <div id="deletedMessage" style="position: fixed; top: 70px; left: 0; right: 0; background-color: #28a745; color: white; padding: 15px; text-align: center; z-index: 9999; font-weight: bold;">
+            ✓ Your account has been permanently deleted. We're sorry to see you go!
+        </div>
+        <script>
+            setTimeout(function() {
+                const msg = document.getElementById('deletedMessage');
+                if(msg) {
+                    msg.style.opacity = '0';
+                    msg.style.transition = 'opacity 0.5s ease';
+                    setTimeout(function() {
+                        msg.remove();
+                    }, 500);
+                }
+                // Remove the parameter from URL without refreshing
+                const url = new URL(window.location.href);
+                url.searchParams.delete('account_deleted');
+                window.history.replaceState({}, document.title, url.pathname);
+            }, 5000);
+        </script>
+    <?php endif; ?>
+    
     <h1>Find a spot</h1>
     <p>Find your focus.</p>
 </main>
@@ -162,7 +185,7 @@ include_once 'header.php';
     .card-heart-pin .heart-btn.faved { background: rgba(109,62,28,0.55); }
 </style>
 
-<!-- ── Welcome toast ── -->
+<!-- ── Welcome ── -->
 <?php if (isset($_GET['login']) && $_GET['login'] === 'success' && isset($_SESSION['username'])): ?>
     <div id="welcome-toast">
         👋 Welcome back, <?= htmlspecialchars($_SESSION['username']) ?>!
