@@ -1,0 +1,24 @@
+services:
+  web:
+    image: almariegsjames/nook-finder
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: nook
+      DB_NAME: nook_finder
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: almariegsjames/nook-finder-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=nook
+      - MYSQL_DATABASE=nook_finder
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pnook"]
+      interval: 5s
+      retries: 10
+      start_period: 15s
